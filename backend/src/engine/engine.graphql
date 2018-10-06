@@ -1,5 +1,4 @@
 type Mutation {
-  parseContract(data: String): String
   go(options: Options): Boolean
 }
 

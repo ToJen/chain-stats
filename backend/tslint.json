@@ -37,6 +37,7 @@
     "no-namespace": false,
     "triple-equals": true,
     "no-return-await": false,
+    "no-implicit-dependencies":false,
     "ban-types": false,
     "no-submodule-imports": false,
     "max-classes-per-file": false

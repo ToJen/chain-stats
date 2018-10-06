@@ -9,8 +9,6 @@ export class Options {
 }
 
 export abstract class IMutation {
-    abstract parseContract(data?: string): string | Promise<string>;
-
     abstract go(options?: Options): boolean | Promise<boolean>;
 }
 
