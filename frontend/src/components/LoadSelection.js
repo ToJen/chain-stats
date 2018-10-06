@@ -52,13 +52,12 @@ class LoadSelection extends React.Component {
     return (
       <div className={classes.root}>
         <Typography id="label">Slider label</Typography>
-        <Slider value={value} aria-labelledby="label" />
         <TextField
           select
           label="With Select"
           className={classNames(classes.margin, classes.textField)}
           value={this.state.weightRange}
-          onChange={this.handleChange('weightRange')}
+          //onChange={this.handleChange('weightRange')}
           InputProps={{
             startAdornment: <InputAdornment position="start">Kg</InputAdornment>,
           }}

@@ -13,8 +13,8 @@ import FileDropper from './FileDropper'
 import AddressInput from './AddressInput'
 import withRoot from '../withRoot'
 import FunctionSelection from './FunctionSelection'
-import LoadSelection from './LoadSelection';
-
+import LoadSelection from './LoadSelection'
+import Dashboard from './Dashboard'
 
 const styles = theme => ({
   root: {
@@ -73,6 +73,7 @@ class Home extends Component {
         <AddressInput />
         <FunctionSelection />
         <LoadSelection />
+        <Dashboard />
       </div>
     )
   }
