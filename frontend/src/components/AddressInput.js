@@ -62,7 +62,7 @@ class AddressInput extends Component {
         <TextField
           id="standard-name"
           label="Contract Address"
-          value={this.state.value}
+          value={this.state.address}
           onChange={this.handleChange}
           margin="normal"
           style={AddressInputStyle}
@@ -82,7 +82,7 @@ class AddressInput extends Component {
                   nodeAddress: this.state.network,
                   noOfUsers: 3,
                   initialGasCost: 4,
-                  contractAddress: '$contractAddress',
+                  contractAddress: this.state.address,
                   abi: '$abi'
                 }
               })
