@@ -1,39 +1,24 @@
-import React from 'react';
-import ResponsiveContainer from 'recharts/lib/component/ResponsiveContainer';
-import LineChart from 'recharts/lib/chart/LineChart';
-import Line from 'recharts/lib/cartesian/Line';
-import XAxis from 'recharts/lib/cartesian/XAxis';
-import YAxis from 'recharts/lib/cartesian/YAxis';
-import CartesianGrid from 'recharts/lib/cartesian/CartesianGrid';
-import Tooltip from 'recharts/lib/component/Tooltip';
-import Legend from 'recharts/lib/component/Legend';
-import Pie from 'recharts/lib/polar/Pie';
-import PieChart from 'recharts/lib/chart/PieChart'
-import Cell from 'recharts/lib/component/Cell';
+import React, { Component } from 'react';
+import {RadialChart, Hint} from 'react-vis'
+import Card from '@material-ui/core/Card'
+import {PieChart, Pie, Legend, Tooltip} from 'recharts';
 
-const data = [{name: 'Pass', value: 400}, {name: 'Fail', value: 300}];
-const COLORS = ['#00C49F', '#FF8042'];
-
-const RADIAN = Math.PI / 180;       
-
-function SuccessFailPieChart() {
+class SuccessFailPieChart extends React.Component {
+    state = {
+        data: [{name: "Success:", value: 100.0-this.props.failRate},
+                {name: "Fail:", value: this.props.failRate}]
+      };
+      render() {
+        const {value} = this.state;
         return (
-          <PieChart width={800} height={400}>
-          <Pie
-            data={data} 
-            cx={120} 
-            cy={200} 
-            innerRadius={60}
-            outerRadius={80} 
-            fill="#8884d8"
-            paddingAngle={5}
-          >
-              {
-                data.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]}/>)
-            }
-          </Pie>
-          </PieChart>
+        <Card>
+    	<PieChart width={800} height={400}>
+        <Pie data={this.state.data} cx={500} cy={200} innerRadius={40} outerRadius={80} fill="#82ca9d" label/>
+        <Tooltip/>
+       </PieChart>
+          </Card>
         );
+      }
 }
 
 export default SuccessFailPieChart;

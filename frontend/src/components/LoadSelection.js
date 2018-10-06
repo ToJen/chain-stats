@@ -14,13 +14,18 @@ import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import Card from '@material-ui/core/Card'
 
 const styles = {
   root: {
-    width: 300,
+      margin: "30px",
   },
+
 };
 
+const selectionStyle = {
+    padding: "10px"
+}
 const ranges = [
     {
       value: '20',
@@ -36,30 +41,33 @@ const ranges = [
     },
   ];
 
+  
 class LoadSelection extends React.Component {
   state = {
-    value: 50,
+    value: 20,
   };
 
-  handleChange = (event, value) => {
-    this.setState({ value });
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    });
   };
-
   render() {
     const { classes } = this.props;
     const { value } = this.state;
 
     return (
       <div className={classes.root}>
-        <Typography id="label">Slider label</Typography>
+      <Card style={selectionStyle}>
+        <Typography id="label">Choose your load</Typography>
         <TextField
           select
           label="With Select"
           className={classNames(classes.margin, classes.textField)}
           value={this.state.weightRange}
-          //onChange={this.handleChange('weightRange')}
+          onChange={this.handleChange('weightRange')}
           InputProps={{
-            startAdornment: <InputAdornment position="start">Kg</InputAdornment>,
+            startAdornment: <InputAdornment position="end">Users</InputAdornment>,
           }}
         >
           {ranges.map(option => (
@@ -68,6 +76,7 @@ class LoadSelection extends React.Component {
             </MenuItem>
           ))}
         </TextField>
+        </Card>
       </div>
     );
   }

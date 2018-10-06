@@ -18,6 +18,7 @@ import { mainListItems, secondaryListItems } from './listItems';
 import SimpleLineChart from './SimpleLineChart';
 import SimpleTable from './SimpleTable';
 import SuccessFailPieChart from './SuccessFailPieChart'
+import TimeTakenChart from './TimeTakenChart';
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -97,6 +98,20 @@ const styles = theme => ({
 class Dashboard extends React.Component {
   state = {
     open: true,
+    failRate: 10,
+    timeTakenData: [
+        {x: 0, y: 8},
+        {x: 1, y: 5},
+        {x: 2, y: 4},
+        {x: 3, y: 9},
+        {x: 4, y: 1},
+        {x: 5, y: 7},
+        {x: 6, y: 6},
+        {x: 7, y: 3},
+        {x: 8, y: 2},
+        {x: 9, y: 0}
+      ],
+
   };
 
   handleDrawerOpen = () => {
@@ -169,8 +184,9 @@ class Dashboard extends React.Component {
               Orders
             </Typography>
             <Typography component="div" className={classes.chartContainer}>
-              <SimpleLineChart />
-              <SuccessFailPieChart />
+              <SimpleLineChart data={this.state.timeTakenData}/>
+              <SuccessFailPieChart failRate={this.state.failRate}/>
+              <TimeTakenChart data={this.state.timeTakenData}/>
             </Typography>
             <Typography variant="display1" gutterBottom component="h2">
               Products
