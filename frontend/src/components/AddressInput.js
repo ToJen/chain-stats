@@ -6,6 +6,7 @@ import Card from '@material-ui/core/Card'
 
 const AddressInputStyle = {
     margin: "30px auto",
+    width: "400px",
   }
 
 const CardStyle = {

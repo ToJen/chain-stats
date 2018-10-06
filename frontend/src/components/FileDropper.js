@@ -3,8 +3,11 @@ import Dropzone from 'react-dropzone'
 
 const FileDropperStyle = {
     width: "800px",
+    height: "100px",
     margin: "30px auto",
+    outline: "5px dotted gray",
 }
+
 
 class FileDropper extends Component {
   constructor() {
