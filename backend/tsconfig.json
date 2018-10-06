@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "noLib": false,
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es2018",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./src",
+    "allowJs": false,
+    "lib": [
+      /* Specify library files to be included in the compilation. */
+      "dom",
+      "es2018",
+      "esnext",
+      "esnext.asynciterable"
+    ]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}
