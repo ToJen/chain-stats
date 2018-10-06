@@ -7,9 +7,13 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogActions from '@material-ui/core/DialogActions'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
-import withRoot from '../withRoot'
 // import { graphql } from 'react-apollo'
 // import { gql } from 'apollo-boost'
+import FileDropper from './FileDropper'
+import AddressInput from './AddressInput'
+import withRoot from '../withRoot'
+
+
 
 const styles = theme => ({
   root: {
@@ -63,6 +67,9 @@ class Home extends Component {
         <Button variant="contained" color="secondary" onClick={this.handleClick}>
           Super Secret Password
         </Button>
+
+        <FileDropper />
+        <AddressInput />
       </div>
     )
   }
