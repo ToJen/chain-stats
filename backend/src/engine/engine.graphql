@@ -1,0 +1,12 @@
+type Mutation {
+  parseContract(data: String): String
+  go(options: Options): Boolean
+}
+
+type Subscription {
+  userResult: String
+}
+
+input Options {
+  noOfUsers: Int
+}

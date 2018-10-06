@@ -1,0 +1,19 @@
+# dependencies
+/node_modules
+
+# IDE
+/.idea
+/.awcache
+/.vscode
+!/.vscode/launch.json
+
+# misc
+npm-debug.log
+yarn-error.log
+
+# tests
+/coverage
+/.nyc_output
+
+# dist
+/dist

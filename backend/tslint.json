@@ -1,0 +1,48 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["tslint:latest", "tslint-config-prettier"],
+  "jsRules": {
+    "no-unused-expression": true
+  },
+  "rules": {
+    "eofline": false,
+    "quotemark": [true, "single"],
+    "semicolon": [true, "never"],
+    "indent": false,
+    "member-access": [false],
+    "ordered-imports": [false],
+    "max-line-length": [true, 150],
+    "member-ordering": [false],
+    "curly": false,
+    "interface-name": [false],
+    "array-type": [false],
+    "no-empty-interface": false,
+    "no-var-requires": false,
+    "no-empty": false,
+    "arrow-parens": false,
+    "object-literal-sort-keys": false,
+    "no-unused-expression": false,
+    // "max-classes-per-file": [false],
+    "variable-name": [false],
+    "one-line": [false],
+    "one-variable-per-declaration": [false],
+    "prettier": true,
+    "no-consecutive-blank-lines": false,
+    "no-require-imports": false,
+    "only-arrow-functions": false,
+    "prefer-const": true,
+    "space-before-function-paren": false,
+    "trailing-comma": false,
+    "no-console": false,
+    "no-namespace": false,
+    "triple-equals": true,
+    "no-return-await": false,
+    "ban-types": false,
+    "no-submodule-imports": false,
+    "max-classes-per-file": false
+  },
+  "linterOptions": {
+    "exclude": ["./src/graphql.schema.ts"]
+  },
+  "rulesDirectory": []
+}
