@@ -7,8 +7,14 @@ import TextField from '@material-ui/core/TextField'
 import Card from '@material-ui/core/Card'
 
 const AddressInputStyle = {
+<<<<<<< HEAD
+    margin: "30px auto",
+    width: "400px",
+  }
+=======
   margin: '30px auto',
 }
+>>>>>>> 873a7bc83f7282b0e9836326f63a88bbd58ed397
 
 const CardStyle = {
   width: '800px',

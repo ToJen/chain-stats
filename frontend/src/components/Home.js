@@ -15,10 +15,14 @@ import withRoot from '../withRoot'
 import FunctionSelection from './FunctionSelection'
 import LoadSelection from './LoadSelection'
 import Dashboard from './Dashboard'
+import TopStepper from './TopStepper'
 
 const styles = theme => ({
   root: {
     textAlign: 'center',
+    backgroundColor: "#3F51B5",
+    width: "100vw",
+    height: "100vh",
     paddingTop: theme.spacing.unit * 20,
   },
 })
@@ -27,19 +31,23 @@ const styles = theme => ({
 class Home extends Component {
 
   render() {
+    
     const { classes } = this.props
 
     return (
+
       <div className={classes.root}>
         <Typography variant="display1" gutterBottom>
-          Chain Stats
+        <font color="White">
+          Chain
+          </font>
+          Stats
         </Typography>
         <Typography variant="subheading" gutterBottom>
           dApp Analytics Tool
         </Typography>
-
-        <FileDropper />
         <AddressInput />
+        <FileDropper />
       </div>
     )
   }
