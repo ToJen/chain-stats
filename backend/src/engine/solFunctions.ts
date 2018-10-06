@@ -22,7 +22,7 @@ const FuncTwo = async count => {
 }
 
 process.on('message', async count => {
-  console.log('child process activated')
+  console.log('child process activated with pid ' + process.pid)
   const data = await Promise.all([FuncOne(count), FuncTwo(count)])
   process.send(JSON.stringify(data))
 })

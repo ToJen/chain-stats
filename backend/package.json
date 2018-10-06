@@ -5,8 +5,9 @@
   "license": "MIT",
   "scripts": {
     "start": "ts-node src/main",
-    "start:prod": "tsc && node dist/main.js",
-    "start:dev": "nodemon"
+    "start:dev": "nodemon",
+        "prestart:prod": "rimraf dist && tsc",
+        "start:prod": "node dist/main.js"
   },
   "dependencies": {
     "@nestjs/common": "^5.3.6",
@@ -22,6 +23,8 @@
   },
   "devDependencies": {
     "@types/node": "10.11.4",
+    "@types/graphql": "^14.0.0",
+    "rimraf": "^2.6.2",
     "nodemon": "latest",
     "ts-node": "7.0.1",
     "tslint": "5.11.0"
