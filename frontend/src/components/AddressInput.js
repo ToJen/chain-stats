@@ -5,6 +5,7 @@ import { gql } from 'apollo-boost'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Card from '@material-ui/core/Card'
+import withRoot from '../withRoot'
 
 const AddressInputStyle = {
     margin: "30px auto",
@@ -80,4 +81,4 @@ class AddressInput extends Component {
   }
 }
 
-export default AddressInput
+export default withRoot(AddressInput)
