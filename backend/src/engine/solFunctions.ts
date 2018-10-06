@@ -1,6 +1,10 @@
+import getWeb3 from '../utils/getWeb3'
 const sleep = time => {
   return new Promise(resolve => setTimeout(resolve, time))
 }
+let gas = null
+let account = null
+let contractInstance = null
 interface FuncStat {
   [key: string]: {
     gasSpent: number;
@@ -10,7 +14,7 @@ interface FuncStat {
 }
 const measureASyncFunc = async (
   fn: (args) => Promise<any>,
-  args: any
+  args?: any
 ): Promise<FuncStat> => {
   const res = {
     gasSpent: null,
@@ -33,13 +37,11 @@ const measureASyncFunc = async (
   return { [fn.name]: res }
 }
 
-const FuncOne = async args => {
-  await sleep(2000)
-  return {
-    gasUsed: 5869,
-    status: true
-  }
+const addCookie = async address => {
+  const { gasUsed, status } = await contractInstance.methods.addCookie(address).send({ from: account, gas })
+  return { gasUsed, status }
 }
+
 const FuncTwo = async args => {
   await sleep(5000)
   return {
@@ -55,12 +57,17 @@ const FuncThree = async args => {
   }
 }
 
-process.on('message', async count => {
+process.on('message', async ({ abi, deployedContractAddress, nodeAddress, initialGasCost }) => {
   console.log('child process activated with pid ' + process.pid)
+  const web3 = getWeb3(nodeAddress)
+  const accounts = await web3.eth.getAccounts()
+  account = accounts[0]
+  gas = initialGasCost
+  contractInstance = new web3.eth.Contract(JSON.parse(abi), deployedContractAddress)
   const perFunction = await Promise.all([
-    measureASyncFunc(FuncOne, count),
-    measureASyncFunc(FuncTwo, count),
-    measureASyncFunc(FuncThree, count)
+    measureASyncFunc(addCookie, accounts[1]),
+    measureASyncFunc(FuncTwo),
+    measureASyncFunc(FuncThree)
   ])
   const perUser = {
     timeElapsed: [],
@@ -78,7 +85,6 @@ process.on('message', async count => {
     }
   })
 
-  console.log(perUser)
   process.send({
     perFunction,
     perUser
