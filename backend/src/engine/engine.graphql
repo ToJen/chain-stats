@@ -8,5 +8,10 @@ type Subscription {
 }
 
 input Options {
-  noOfUsers: Int
+  sol: String!,
+  nodeAddress: String!,
+  noOfUsers: Int!,
+  initialGasCost: Int,
+  contractAddress: String,
+  abi: String
 }
