@@ -3,7 +3,13 @@
   "version": "0.0.1",
   "private": true,
   "devDependencies": {
+    "@storybook/addon-actions": "^3.4.11",
+    "@storybook/addon-links": "^3.4.11",
+    "@storybook/addons": "^3.4.11",
+    "@storybook/react": "^3.4.11",
+    "babel-core": "^6.26.3",
     "babel-eslint": "7.2.3",
+    "babel-runtime": "^6.26.0",
     "eslint": "4.19.1",
     "eslint-config-react-app": "2.1.0",
     "eslint-plugin-flowtype": "2.50.3",
@@ -29,6 +35,7 @@
     "react": "16.5.2",
     "react-apollo": "2.2.4",
     "react-dom": "16.5.2",
+    "react-dropzone": "^6.0.2",
     "react-modal": "3.6.1",
     "react-router-dom": "4.3.1",
     "subscriptions-transport-ws": "0.9.15"
@@ -37,7 +44,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "prettier": {
     "semi": false,
