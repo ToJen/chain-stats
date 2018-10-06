@@ -37,11 +37,16 @@ const USER_RESULTS_SUBSCRIPTION = gql`
 
 class Home extends Component {
   state = {
-    incomingData: [],
+    perFunction: [],
+    perUser: {
+      timeElapsed: [],
+      failedFunctions: [],
+      gasUsed: [],
+    },
   }
   render() {
     const { classes } = this.props
-    const { incomingData } = this.state
+    const { perFunction, perUser } = this.state
     return (
       <div className={classes.root}>
         <Subscription
@@ -49,13 +54,22 @@ class Home extends Component {
           onSubscriptionData={({
             subscriptionData: { data: { userResult } },
           }) => {
+            const { perFunction, perUser } = JSON.parse(userResult)
             console.dir(JSON.parse(userResult))
             this.setState(state => {
               return {
-                incomingData: [
-                  ...state.incomingData,
-                  ...JSON.parse(userResult),
-                ],
+                perFunction: [...state.perFunction, ...perFunction],
+                perUser: {
+                  timeElapsed: [
+                    ...state.perUser.timeElapsed,
+                    ...perUser.timeElapsed,
+                  ],
+                  failedFunctions: [
+                    ...state.perUser.failedFunctions,
+                    ...perUser.failedFunctions,
+                  ],
+                  gasUsed: [...state.perUser.gasUsed, ...perUser.gasUsed],
+                },
               }
             })
           }}
@@ -69,8 +83,17 @@ class Home extends Component {
         </Typography>
         <AddressInput />
         <FileDropper />
-        {incomingData.map((item, index) => {
-          return <h4 key={index}>User Result: {item}</h4>
+        perFunction:
+        {perFunction.map((item, index) => {
+          return <h4 key={index}>User Result: {JSON.stringify(item)}</h4>
+        })}
+        PerUser:
+        {Object.keys(perUser).map((item, index) => {
+          return (
+            <h4 key={index}>
+              {item}:{JSON.stringify(perUser[item])}
+            </h4>
+          )
         })}
       </div>
     )
