@@ -4,7 +4,7 @@ import { HttpLink, InMemoryCache, ApolloClient } from 'apollo-client-preset'
 import { WebSocketLink } from 'apollo-link-ws'
 import { ApolloLink, split } from 'apollo-link'
 import { getMainDefinition } from 'apollo-utilities'
-import RootContainer from './components/RootContainer'
+import RootContainer from './containers/RootContainer'
 import { ApolloProvider } from 'react-apollo'
 
 
