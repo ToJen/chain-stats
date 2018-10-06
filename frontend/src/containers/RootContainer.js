@@ -6,7 +6,9 @@ import {
 } from 'react-router-dom'
 import Home from '../components/Home'
 import PageNotFound from '../components/PageNotFound'
-
+import Dashboard from '../components/Dashboard'
+import FunctionSelection from '../components/FunctionSelection'
+import LoadSelection from '../components/LoadSelection'
 
 class RootContainer extends Component {
 
@@ -16,6 +18,9 @@ class RootContainer extends Component {
         <Fragment>
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/functions" component={FunctionSelection} />
+            <Route exact path="/load" component={LoadSelection} />
+            <Route exact path="/results" component={Dashboard} />
             <Route component={PageNotFound} />
           </Switch>
         </Fragment>

@@ -13,33 +13,18 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 export const mainListItems = (
   <div>
     <ListItem button>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" />
+      <ListItemText primary="Speed" />
     </ListItem>
     <ListItem button>
-      <ListItemIcon>
-        <ShoppingCartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Orders" />
+      <ListItemText primary="Gas Prices" />
     </ListItem>
     <ListItem button>
-      <ListItemIcon>
-        <PeopleIcon />
-      </ListItemIcon>
-      <ListItemText primary="Customers" />
+      <ListItemText primary="Success/Fail Rate" />
     </ListItem>
     <ListItem button>
-      <ListItemIcon>
-        <BarChartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Reports" />
+      <ListItemText primary="Function Ranks" />
     </ListItem>
     <ListItem button>
-      <ListItemIcon>
-        <LayersIcon />
-      </ListItemIcon>
       <ListItemText primary="Integrations" />
     </ListItem>
   </div>

@@ -71,9 +71,6 @@ class Home extends Component {
 
         <FileDropper />
         <AddressInput />
-        <FunctionSelection />
-        <LoadSelection />
-        <Dashboard />
       </div>
     )
   }
