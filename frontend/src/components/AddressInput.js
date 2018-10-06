@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Card from '@material-ui/core/Card';
 class AddressInput extends Component {
     constructor() {
       super()
@@ -19,13 +22,16 @@ class AddressInput extends Component {
     
       render() {
         return (
-          <form onSubmit={this.handleSubmit}>
-            <label>
-              Contract Address:
-              <input type="text" value={this.state.value} onChange={this.handleChange} />
-            </label>
-            <input type="submit" value="Submit" />
-          </form>
+            <Card>
+            <TextField
+          id="standard-name"
+          label="Contract Address"
+          value={this.state.value}
+          onChange={this.handleChange}
+          margin="normal"
+        />
+            <Button onClick={this.handleSubmit}>Submit</Button>
+          </Card>
         );
       }
   }
