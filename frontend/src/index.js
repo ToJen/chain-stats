@@ -9,14 +9,14 @@ import { ApolloProvider } from 'react-apollo'
 
 
 
-const httpLink = new HttpLink({ uri: 'http://localhost:3001' })
+const httpLink = new HttpLink({ uri: 'http://localhost:3001/graphql' })
 
 
 
 // authenticated httplink
 
 const wsLink = new WebSocketLink({
-  uri: `ws://localhost:3001`,
+  uri: `ws://localhost:3001/graphql`,
   options: {
     reconnect: true,
   },
