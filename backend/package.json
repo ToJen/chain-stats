@@ -1,8 +1,7 @@
 {
-  "name": "nest-typescript-starter",
-  "version": "1.0.0",
-  "description": "Nest TypeScript starter repository",
-  "license": "MIT",
+  "name": "chain-stats-frontend",
+  "version": "0.0.1",
+  "private": true,
   "scripts": {
     "start": "ts-node src/main",
     "start:dev": "nodemon",

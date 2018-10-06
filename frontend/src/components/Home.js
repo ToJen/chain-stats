@@ -16,31 +16,33 @@ import FunctionSelection from './FunctionSelection'
 import LoadSelection from './LoadSelection'
 import Dashboard from './Dashboard'
 import TopStepper from './TopStepper'
+import { Subscription } from 'react-apollo'
+
+import { gql } from 'apollo-boost'
 
 const styles = theme => ({
   root: {
     textAlign: 'center',
-    backgroundColor: "#3F51B5",
-    width: "100vw",
-    height: "100vh",
+    backgroundColor: '#3F51B5',
+    width: '100vw',
+    height: '100vh',
     paddingTop: theme.spacing.unit * 20,
   },
 })
-
+const USER_RESULTS_SUBSCRIPTION = gql`
+  subscription userResult {
+    userResult
+  }
+`
 
 class Home extends Component {
-
   render() {
-    
     const { classes } = this.props
 
     return (
-
       <div className={classes.root}>
         <Typography variant="display1" gutterBottom>
-        <font color="White">
-          Chain
-          </font>
+          <font color="White">Chain</font>
           Stats
         </Typography>
         <Typography variant="subheading" gutterBottom>
@@ -48,10 +50,14 @@ class Home extends Component {
         </Typography>
         <AddressInput />
         <FileDropper />
+        <Subscription subscription={USER_RESULTS_SUBSCRIPTION}>
+          {({ data, loading }) => (
+            <h4>User Result: {!loading && data.userResult}</h4>
+          )}
+        </Subscription>
       </div>
     )
   }
-
 }
 
 // const FEED_QUERY = gql`
@@ -109,6 +115,5 @@ class Home extends Component {
 //       },
 //     }),
 // })(Home)
-
 
 export default withRoot(withStyles(styles)(Home))
