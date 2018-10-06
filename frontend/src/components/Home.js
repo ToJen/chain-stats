@@ -12,7 +12,8 @@ import { withStyles } from '@material-ui/core/styles'
 import FileDropper from './FileDropper'
 import AddressInput from './AddressInput'
 import withRoot from '../withRoot'
-
+import FunctionSelection from './FunctionSelection'
+import LoadSelection from './LoadSelection';
 
 
 const styles = theme => ({
@@ -70,6 +71,8 @@ class Home extends Component {
 
         <FileDropper />
         <AddressInput />
+        <FunctionSelection />
+        <LoadSelection />
       </div>
     )
   }

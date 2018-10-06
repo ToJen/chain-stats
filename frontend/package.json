@@ -22,6 +22,7 @@
   "dependencies": {
     "@material-ui/core": "^3.1.2",
     "@material-ui/icons": "^3.0.1",
+    "@material-ui/lab": "^3.0.0-alpha.18",
     "apollo-boost": "0.1.16",
     "apollo-client": "2.4.2",
     "apollo-client-preset": "1.0.8",
