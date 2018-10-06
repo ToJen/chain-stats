@@ -36,11 +36,30 @@ const USER_RESULTS_SUBSCRIPTION = gql`
 `
 
 class Home extends Component {
+  state = {
+    incomingData: [],
+  }
   render() {
     const { classes } = this.props
-
+    const { incomingData } = this.state
     return (
       <div className={classes.root}>
+        <Subscription
+          subscription={USER_RESULTS_SUBSCRIPTION}
+          onSubscriptionData={({
+            subscriptionData: { data: { userResult } },
+          }) => {
+            console.dir(JSON.parse(userResult))
+            this.setState(state => {
+              return {
+                incomingData: [
+                  ...state.incomingData,
+                  ...JSON.parse(userResult),
+                ],
+              }
+            })
+          }}
+        />
         <Typography variant="display1" gutterBottom>
           <font color="White">Chain</font>
           Stats
@@ -50,70 +69,12 @@ class Home extends Component {
         </Typography>
         <AddressInput />
         <FileDropper />
-        <Subscription subscription={USER_RESULTS_SUBSCRIPTION}>
-          {({ data, loading }) => (
-            <h4>User Result: {!loading && data.userResult}</h4>
-          )}
-        </Subscription>
+        {incomingData.map((item, index) => {
+          return <h4 key={index}>User Result: {item}</h4>
+        })}
       </div>
     )
   }
 }
-
-// const FEED_QUERY = gql`
-//   query FeedQuery {
-//     feed {
-//       id
-//       text
-//       title
-//       isPublished
-//       author {
-//         name
-//       }
-//     }
-//   }
-// `
-// const FEED_SUBSCRIPTION = gql`
-//   subscription FeedSubscription {
-//     feedSubscription {
-//       node {
-//         id
-//         text
-//         title
-//         isPublished
-//         author {
-//           name
-//         }
-//       }
-//     }
-//   }
-//`
-
-// export default graphql(FEED_QUERY, {
-//   name: 'feedQuery', // name of the injected prop: this.props.feedQuery...
-//   options: {
-//     fetchPolicy: 'network-only',
-//   },
-//   props: props =>
-//     Object.assign({}, props, {
-//       subscribeToNewFeed: params => {
-//         return props.feedQuery.subscribeToMore({
-//           document: FEED_SUBSCRIPTION,
-//           updateQuery: (prev, { subscriptionData }) => {
-//             if (!subscriptionData.data) {
-//               return prev
-//             }
-//             const newPost = subscriptionData.data.feedSubscription.node
-//             if (prev.feed.find(post => post.id === newPost.id)) {
-//               return prev
-//             }
-//             return Object.assign({}, prev, {
-//               feed: [...prev.feed, newPost],
-//             })
-//           },
-//         })
-//       },
-//     }),
-// })(Home)
 
 export default withRoot(withStyles(styles)(Home))
