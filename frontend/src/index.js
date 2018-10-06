@@ -9,14 +9,14 @@ import { ApolloProvider } from 'react-apollo'
 
 
 
-const httpLink = new HttpLink({ uri: 'http://localhost:4000' })
+const httpLink = new HttpLink({ uri: 'http://localhost:3001' })
 
 
 
 // authenticated httplink
 
 const wsLink = new WebSocketLink({
-  uri: `ws://localhost:4000`,
+  uri: `ws://localhost:3001`,
   options: {
     reconnect: true,
   },
