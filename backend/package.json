@@ -6,16 +6,19 @@
   "scripts": {
     "start": "ts-node src/main",
     "start:dev": "nodemon",
-        "prestart:prod": "rimraf dist && tsc",
-        "start:prod": "node dist/main.js"
+    "prestart:prod": "rimraf dist && tsc",
+    "start:prod": "node dist/main.js"
   },
   "dependencies": {
-    "@nestjs/common": "^5.3.6",
-    "@nestjs/core": "^5.3.6",
-    "@nestjs/graphql": "^5.3.0",
-    "apollo-server-express": "^2.1.0",
-    "graphql": "14.0.2",
-    "graphql-subscriptions": "^1.0.0",
+    "@nestjs/common": "^5.3.9",
+    "@nestjs/core": "^5.3.10",
+    "@nestjs/graphql": "^5.4.0",
+    "apollo-server-express": "2.1.0",
+    "graphql": "0.13.2",
+    "graphql-cli": "^2.16.7",
+    "graphql-import": "^0.7.1",
+    "graphql-subscriptions": "1.0.0",
+    "graphql-tools": "^4.0.0",
     "reflect-metadata": "0.1.12",
     "rxjs": "6.3.3",
     "tslint-config-prettier": "^1.15.0",
