@@ -17,7 +17,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import SimpleLineChart from './SimpleLineChart';
 import SimpleTable from './SimpleTable';
-
+import SuccessFailPieChart from './SuccessFailPieChart'
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -170,6 +170,7 @@ class Dashboard extends React.Component {
             </Typography>
             <Typography component="div" className={classes.chartContainer}>
               <SimpleLineChart />
+              <SuccessFailPieChart />
             </Typography>
             <Typography variant="display1" gutterBottom component="h2">
               Products
