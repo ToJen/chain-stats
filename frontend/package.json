@@ -20,6 +20,7 @@
     "react-scripts": "1.1.5"
   },
   "dependencies": {
+    "@material-ui/core": "^3.1.2",
     "apollo-boost": "0.1.16",
     "apollo-client": "2.4.2",
     "apollo-client-preset": "1.0.8",

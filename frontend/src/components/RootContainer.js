@@ -12,7 +12,7 @@ import CreatePage from './CreatePage'
 import DetailPage from './DetailPage'
 import PageNotFound from './PageNotFound'
 import FileDropper from './FileDropper'
-
+import AddressInput from './AddressInput'
 class RootContainer extends Component {
 
 
@@ -34,6 +34,7 @@ class RootContainer extends Component {
     return (
       <nav className="pa3 pa4-ns">
               <FileDropper/>
+              <AddressInput/>
         <Link className="link dim black b f6 f5-ns dib mr3" to="/" title="Feed">
           Blog
         </Link>
