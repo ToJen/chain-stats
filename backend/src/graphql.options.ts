@@ -8,9 +8,10 @@ export class GraphqlOptions implements GqlOptionsFactory {
     return {
       typePaths: ['./**/*.graphql'],
       playground: true,
-      path: '/',
+      path:'/api/graphql',
       context: ({ req }) => ({ req }),
       installSubscriptionHandlers: true,
+      subscriptions: { path: '/api/graphql' },
       definitions: {
         path: join(process.cwd(), 'src/graphql.schema.ts'),
         outputAs: 'class'

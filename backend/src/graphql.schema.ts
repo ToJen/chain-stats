@@ -1,7 +1,7 @@
 export class Options {
-    sol?: string;
-    nodeAddress?: string;
-    noOfUsers?: number;
+    sol: string;
+    nodeAddress: string;
+    noOfUsers: number;
     initialGasCost?: number;
     contractAddress?: string;
     abi?: string;

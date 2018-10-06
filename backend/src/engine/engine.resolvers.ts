@@ -1,8 +1,8 @@
 import { Args, Mutation, Resolver, Subscription } from '@nestjs/graphql'
 import { EngineService } from './engine.service'
+import { pubSub } from './pubsub'
 import { Options } from '../graphql.schema'
-
-@Resolver('Cat')
+@Resolver()
 export class EngineResolvers {
   constructor(private readonly engineService: EngineService) {}
 
@@ -25,7 +25,7 @@ export class EngineResolvers {
   @Subscription('userResult')
   userResult() {
     return {
-      subscribe: () => this.engineService.pubSub.asyncIterator('userResult')
+      subscribe: () => pubSub.asyncIterator('userResult')
     }
   }
 }
