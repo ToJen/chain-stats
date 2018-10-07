@@ -11,7 +11,7 @@ import Legend from 'recharts/lib/component/Legend';
 class SimpleLineChart extends React.Component {
     render() {
         return (
-        <ResponsiveContainer width='100%' aspect={4.0/3.0}> 
+        <ResponsiveContainer width='100%'> 
         <LineChart data={this.props.data}>
             <XAxis/>
             <YAxis/>
@@ -21,9 +21,11 @@ class SimpleLineChart extends React.Component {
             <Line
                 type="monotone"
                 dataKey="ms"
-                stroke="#82ca9d"
+                stroke="#C453AD"
+                
                 activeDot={{
-                r: 8
+                r: 8,
+                stroke: "#C453AD"
             }}/>
         </LineChart>
         </ResponsiveContainer>

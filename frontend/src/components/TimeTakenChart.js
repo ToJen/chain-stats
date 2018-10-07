@@ -17,7 +17,7 @@ class TimeTakenChart extends React.Component {
     render() {
         const {value} = this.state;
         return (
-            <ResponsiveContainer>
+            <ResponsiveContainer width="100%">
             <BarChart
                 width={600}
                 height={300}
@@ -33,7 +33,7 @@ class TimeTakenChart extends React.Component {
                 <YAxis/>
                 <Tooltip/>
                 <Legend/>
-                <Bar dataKey="ms" fill="#8884d8"/>
+                <Bar dataKey="ms" fill="#C453AD"/>
             </BarChart>
             </ResponsiveContainer>
         );
