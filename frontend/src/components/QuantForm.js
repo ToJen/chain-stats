@@ -329,7 +329,7 @@ class QuantForm extends React.Component {
         from: web3.eth.accounts[0],
         gas: 4000000,
       },
-      function(error, result) {
+      function (error, result) {
         //get callback from function which is your transaction key
         if (!error) {
           console.log(result)
@@ -344,7 +344,7 @@ class QuantForm extends React.Component {
   render() {
     return (
       <div>
-        <Button onClick={this.handleClickOpen}>Quantstamp Menu</Button>
+        <Button onClick={this.handleClickOpen} variant="contained">Quantstamp Menu</Button>
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}

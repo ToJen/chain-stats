@@ -55,13 +55,13 @@ const styles = theme => ({
     //paddingTop: theme.spacing.unit * 20,
   },
   textField: {
-    marginTop: "250px",
+    marginTop: '250px',
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     width: 200,
   },
   bigTextField: {
-    marginTop: "250px",
+    marginTop: '250px',
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     width: 400,
@@ -87,6 +87,7 @@ class Home extends Component {
     contractAbi: '',
     noOfUsers: '4',
     initialGasCost: 1000000,
+    qspChecked: false
   }
 
   isStepOptional = step => {
@@ -137,9 +138,12 @@ class Home extends Component {
   }
 
   handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value,
-    })
+    name === 'qspChecked' ?
+      this.setState({ [name]: event.target.checked })
+      :
+      this.setState({
+        [name]: event.target.value,
+      })
   }
 
   updateSOL(event) {
@@ -163,7 +167,7 @@ class Home extends Component {
       case 0:
         return (
           <div>
-            
+
             <TextField
               id="standard-multiline-static"
               label="Contract Source Code"
@@ -252,16 +256,14 @@ class Home extends Component {
             <FormControlLabel className={classes.textField}
               control={
                 <Checkbox
-                  checked={this.state.ifQuant}
-                  onChange={this.handleChange('ifQuant')}
-                  value="ifQuant"
+                  checked={this.state.qspChecked}
+                  onChange={this.handleChange('qspChecked')}
                   margin="normal"
-                  
                 />
               }
               label="Test with Quantstamp"
             />
-            <QuantForm />
+            {this.state.qspChecked && <QuantForm />}
           </div>
         )
       default:
@@ -282,7 +284,7 @@ class Home extends Component {
       <div className={classes.root}>
         <AppBar position="static" color="primary">
           <Toolbar color="inherit">
-          <img src={require('./chainstats.png')} width="70px"/>
+            <img src={require('./chainstats.png')} width="70px" />
           </Toolbar>
         </AppBar>
         <Stepper activeStep={activeStep}>

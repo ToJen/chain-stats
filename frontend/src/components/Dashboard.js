@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import Badge from '@material-ui/core/Badge'
 import MenuIcon from '@material-ui/icons/Menu'
+import CloseIcon from '@material-ui/icons/Close'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import SimpleLineChart from './SimpleLineChart'
 import SuccessFailPieChart from './SuccessFailPieChart'
@@ -15,6 +16,8 @@ import TimeTakenChart from './TimeTakenChart'
 import RadialChart from './RadialChart'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
+import Button from '@material-ui/core/Button'
+import Snackbar from '@material-ui/core/Snackbar'
 import { Subscription } from 'react-apollo'
 import { gql } from 'apollo-boost'
 import withRoot from '../withRoot'
@@ -78,7 +81,7 @@ const styles = theme => ({
     },
     title: {
         flexGrow: 1,
-        marginBottom: "10px"
+        marginBottom: '10px'
     },
     number: {
         flexGrow: 1,
@@ -227,7 +230,10 @@ class Dashboard extends React.Component {
             { name: 'addChoice', gas: 4000, ms: 240 },
             { name: 'stockUp', gas: 3000, ms: 139 },
             { name: 'bakeCookie', gas: 2000, ms: 980 }
-        ]
+        ],
+        notificationOpen: false,
+        vertical: 'top',
+        horizontal: 'right',
     };
 
     componentDidMount() {
@@ -242,9 +248,13 @@ class Dashboard extends React.Component {
         this.setState({ open: false })
     };
 
+    handleClose = () => {
+        this.setState({ notificationOpen: false })
+    };
+
     render() {
         const { classes } = this.props
-        const { parsedData, failRate } = this.state
+        const { parsedData, failRate, vertical, horizontal, notificationOpen } = this.state
 
         return (
             <React.Fragment>
@@ -299,9 +309,30 @@ class Dashboard extends React.Component {
                                 minGas,
                                 minGasName,
                                 maxGas,
-                                maxGasName
+                                maxGasName,
+                                notificationOpen: true
                             })
-                        }} />
+                        }}
+                    />
+
+                    <Snackbar
+                        anchorOrigin={{ vertical, horizontal }}
+                        open={notificationOpen}
+                        ContentProps={{
+                            'aria-describedby': 'message-id',
+                        }}
+                        message={<span id="message-id">Stress Test Complete! 🚀</span>}
+                        action={[
+                            <IconButton
+                                key="close"
+                                aria-label="Close"
+                                color="inherit"
+                                onClick={this.handleClose}
+                            >
+                                <CloseIcon />
+                            </IconButton>,
+                        ]}
+                    />
                     <AppBar position="absolute" color="primary">
                         <Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
                             <IconButton
