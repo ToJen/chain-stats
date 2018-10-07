@@ -7,6 +7,7 @@ import {
 import Home from '../components/Home'
 import PageNotFound from '../components/PageNotFound'
 import Dashboard from '../components/Dashboard'
+import Results from '../components/Results'
 // import FunctionSelection from '../components/FunctionSelection'
 // import LoadSelection from '../components/LoadSelection'
 
@@ -19,6 +20,7 @@ class RootContainer extends Component {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/results" component={Dashboard} />
+            <Route exact path="/test" component={Results} />
             <Route component={PageNotFound} />
           </Switch>
         </Fragment>
