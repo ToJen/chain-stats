@@ -136,7 +136,7 @@ const styles = theme => ({
     },
     paper: {
         backgroundColor: '#27293B',
-        padding: '30px',
+        padding: '40px',
         textAlign: 'center',
         color: theme.palette.text.primary,
         height: '400px',
@@ -482,17 +482,20 @@ class Dashboard extends React.Component {
                                     <SuccessFailPieChart failRate={failRate} />
                                 </Paper>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={4}>
                                 <Paper className={classes.paper}>
                                     <Typography
                                         component="h1"
                                         variant="title"
                                         color="inherit"
                                         noWrap
-                                        className={classes.title}>Security Benchmark Score</Typography>
+                                        className={classes.title}>Security Benchmark Score (89.23)</Typography>
                                     {/* <SimpleLineChart data={this.state.mergedData} dataKey="ms" isMulti />
                                  */}
-                                    <RadialChart />
+                                    <RadialChart 
+                                    
+                                    
+                                    />
                                 </Paper>
                             </Grid>
                             <Grid item xs={4}>
