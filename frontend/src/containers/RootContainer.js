@@ -1,16 +1,10 @@
 import React, { Component, Fragment } from 'react'
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-} from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Home from '../components/Home'
 import PageNotFound from '../components/PageNotFound'
 import Dashboard from '../components/Dashboard'
 
-
 class RootContainer extends Component {
-
   render() {
     return (
       <Router>
@@ -25,6 +19,5 @@ class RootContainer extends Component {
     )
   }
 }
-
 
 export default RootContainer

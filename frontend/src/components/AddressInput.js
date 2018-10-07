@@ -8,9 +8,9 @@ import Card from '@material-ui/core/Card'
 import withRoot from '../withRoot'
 import NetworkSelect from './NetworkSelect'
 const AddressInputStyle = {
-    margin: "30px auto",
-    width: "400px",
-  }
+  margin: '30px auto',
+  width: '400px',
+}
 
 const CardStyle = {
   width: '800px',
@@ -20,12 +20,28 @@ const CardStyle = {
 const ButtonStyle = {
   width: '800px',
   margin: '30px auto',
-  color: "#FFC107",
+  color: '#FFC107',
 }
 
 const RUN_TEST = gql`
-  mutation Go($sol: String!, $nodeAddress: String!, $noOfUsers: Int!, $initialGasCost: Int, $contractAddress: String, $abi: String) {
-    go(options: {sol: $sol, nodeAddress: $nodeAddress, noOfUsers: $noOfUsers, initialGasCost: $initialGasCost, contractAddress: $contractAddress, abi: $abi})
+  mutation Go(
+    $sol: String!
+    $nodeAddress: String!
+    $noOfUsers: Int!
+    $initialGasCost: Int
+    $contractAddress: String
+    $abi: String
+  ) {
+    go(
+      options: {
+        sol: $sol
+        nodeAddress: $nodeAddress
+        noOfUsers: $noOfUsers
+        initialGasCost: $initialGasCost
+        contractAddress: $contractAddress
+        abi: $abi
+      }
+    )
   }
 `
 
@@ -33,9 +49,9 @@ class AddressInput extends Component {
   constructor() {
     super()
     this.state = {
-         value: '',
-         network: 'Mainnet',
-         address: '',
+      value: '',
+      network: 'Mainnet',
+      address: '',
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -43,7 +59,7 @@ class AddressInput extends Component {
 
   handleChange(event) {
     this.setState({ address: event.target.value })
-    console.log(this.state);
+    console.log(this.state)
   }
 
   handleSubmit(event) {
@@ -51,10 +67,10 @@ class AddressInput extends Component {
     event.preventDefault()
   }
 
-  handleNetworkChange = (networkName) => {
-    this.setState({network: networkName});
-    console.log(networkName);
-}
+  handleNetworkChange = networkName => {
+    this.setState({ network: networkName })
+    console.log(networkName)
+  }
 
   render() {
     return (
@@ -68,28 +84,34 @@ class AddressInput extends Component {
           style={AddressInputStyle}
         />
 
-        <NetworkSelect onNetworkChange={this.handleNetworkChange}/>
+        <NetworkSelect onNetworkChange={this.handleNetworkChange} />
 
         <Mutation mutation={RUN_TEST}>
           {(go, { error, loading }) => {
             if (loading) return <p>Loading...</p>
             if (error) console.dir(error)
 
-            return <Button onClick={
-              () => go({
-                variables: {
-                  sol: '$sol',
-                  nodeAddress: this.state.network,
-                  noOfUsers: 3,
-                  initialGasCost: 4,
-                  contractAddress: this.state.address,
-                  abi: '$abi'
+            return (
+              <Button
+                onClick={() =>
+                  go({
+                    variables: {
+                      sol: '$sol',
+                      nodeAddress: this.state.network,
+                      noOfUsers: 3,
+                      initialGasCost: 4,
+                      contractAddress: this.state.address,
+                      abi: '$abi',
+                    },
+                  })
                 }
-              })
-            } style={ButtonStyle}>Submit</Button>
+                style={ButtonStyle}
+              >
+                Submit
+              </Button>
+            )
           }}
         </Mutation>
-
       </Card>
     )
   }

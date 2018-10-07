@@ -20,16 +20,32 @@ import FileDropper from './FileDropper'
 import withRoot from '../withRoot'
 import { gql } from 'apollo-boost'
 import { Mutation } from 'react-apollo'
-import QuantFeedback from './QuantFeedback';
-import QuantForm from './QuantForm';
-
+import QuantFeedback from './QuantFeedback'
+import QuantForm from './QuantForm'
 
 const RUN_TEST = gql`
-  mutation Go($sol: String!, $nodeAddress: String!, $noOfUsers: Int!, $initialGasCost: Int!, $contractAddress: String, $abi: String, $contractName: String!) {
-    go(options: {sol: $sol, nodeAddress: $nodeAddress, noOfUsers: $noOfUsers, initialGasCost: $initialGasCost, contractAddress: $contractAddress, abi: $abi, contractName: $contractName})
+  mutation Go(
+    $sol: String!
+    $nodeAddress: String!
+    $noOfUsers: Int!
+    $initialGasCost: Int!
+    $contractAddress: String
+    $abi: String
+    $contractName: String!
+  ) {
+    go(
+      options: {
+        sol: $sol
+        nodeAddress: $nodeAddress
+        noOfUsers: $noOfUsers
+        initialGasCost: $initialGasCost
+        contractAddress: $contractAddress
+        abi: $abi
+        contractName: $contractName
+      }
+    )
   }
 `
-
 
 const styles = theme => ({
   root: {
@@ -61,18 +77,19 @@ class Home extends Component {
   state = {
     activeStep: 0,
     skipped: new Set(),
-    sol: 'pragma solidity ^0.4.24;contract Bakery { address public  baker; address[] public cookies; event Baked(address _theNewCookie); constructor() public { baker = msg.sender; } function addCookie(address newCookie) public { cookies.push(newCookie); emit Baked(newCookie);   } }',
+    sol:
+      'pragma solidity ^0.4.24;contract Bakery { address public  baker; address[] public cookies; event Baked(address _theNewCookie); constructor() public { baker = msg.sender; } function addCookie(address newCookie) public { cookies.push(newCookie); emit Baked(newCookie);   } }',
     nodeAddress: 'http://127.0.0.1:8545',
     contractName: 'Bakery',
     contractAddress: '',
     contractAbi: '',
     noOfUsers: '4',
-    initialGasCost: 1000000
+    initialGasCost: 1000000,
   }
 
   isStepOptional = step => {
     return step === 2
-  };
+  }
 
   handleNext = () => {
     const { activeStep } = this.state
@@ -85,13 +102,13 @@ class Home extends Component {
       activeStep: activeStep + 1,
       skipped,
     })
-  };
+  }
 
   handleBack = () => {
     this.setState(state => ({
       activeStep: state.activeStep - 1,
     }))
-  };
+  }
 
   handleSkip = () => {
     const { activeStep } = this.state
@@ -109,13 +126,13 @@ class Home extends Component {
         skipped,
       }
     })
-  };
+  }
 
   handleReset = () => {
     this.setState({
       activeStep: 0,
     })
-  };
+  }
 
   handleChange = name => event => {
     this.setState({
@@ -123,113 +140,126 @@ class Home extends Component {
     })
   }
 
-  updateSOL(event){
-    console.log(event);
+  updateSOL(event) {
+    console.log(event)
     //this.setState({
     //  sol: event
     //})
   }
 
   getSteps = () => {
-    return ['Paste contract source code', 'Enter node details', 'Deployed details', 'Specify test parameters']
+    return [
+      'Paste contract source code',
+      'Enter node details',
+      'Deployed details',
+      'Specify test parameters',
+    ]
   }
 
   getStepContent = (step, classes) => {
     switch (step) {
       case 0:
-        return <div>
-        <TextField
-          id="standard-multiline-static"
-          label="Contract Source Code"
-          multiline
-          rows="10"
-          value={this.state.sol}
-          className={classes.bigTextField}
-          onChange={this.handleChange('sol')}
-          margin="normal"
-        />
-        </div>
+        return (
+          <div>
+            <TextField
+              id="standard-multiline-static"
+              label="Contract Source Code"
+              multiline
+              rows="10"
+              value={this.state.sol}
+              className={classes.bigTextField}
+              onChange={this.handleChange('sol')}
+              margin="normal"
+            />
+          </div>
+        )
       case 1:
-        return <div>
-          <TextField
-            required
-            id="standard-required"
-            label="Web3 Provider URL"
-            // defaultValue="http://127.0.0.1:8545"
-            value={this.state.nodeAddress}
-            className={classes.textField}
-            margin="normal"
-            onChange={this.handleChange('nodeAddress')}
-          />
-          <TextField
-            id="standard-multiline-static"
-            label="Contract Name"
-            // defaultValue=""
-            className={classes.textField}
-            value={this.state.contractName}
-            margin="normal"
-            onChange={this.handleChange('contractName')}
-          />
-        </div>
+        return (
+          <div>
+            <TextField
+              required
+              id="standard-required"
+              label="Web3 Provider URL"
+              // defaultValue="http://127.0.0.1:8545"
+              value={this.state.nodeAddress}
+              className={classes.textField}
+              margin="normal"
+              onChange={this.handleChange('nodeAddress')}
+            />
+            <TextField
+              id="standard-multiline-static"
+              label="Contract Name"
+              // defaultValue=""
+              className={classes.textField}
+              value={this.state.contractName}
+              margin="normal"
+              onChange={this.handleChange('contractName')}
+            />
+          </div>
+        )
       case 2:
-        return <div>
-          <TextField
-            id="standard-required"
-            label="Deployed Contract Address"
-            // defaultValue="0x"
-            value={this.state.contractAddress}
-            className={classes.textField}
-            onChange={this.handleChange('contractAddress')}
-            margin="normal"
-          />
-          <TextField
-            id="standard-multiline-static"
-            label="Contract ABI"
-            value={this.state.contractAbi}
-            className={classes.textField}
-            onChange={this.handleChange('contractAbi')}
-            margin="normal"
-          />
-        </div>
+        return (
+          <div>
+            <TextField
+              id="standard-required"
+              label="Deployed Contract Address"
+              // defaultValue="0x"
+              value={this.state.contractAddress}
+              className={classes.textField}
+              onChange={this.handleChange('contractAddress')}
+              margin="normal"
+            />
+            <TextField
+              id="standard-multiline-static"
+              label="Contract ABI"
+              value={this.state.contractAbi}
+              className={classes.textField}
+              onChange={this.handleChange('contractAbi')}
+              margin="normal"
+            />
+          </div>
+        )
       case 3:
-        return <div>
-          <TextField
-            id="standard-number"
-            label="Number of Users"
-            value={this.state.noOfUsers}
-            onChange={this.handleChange('noOfUsers')}
-            type="number"
-            className={classes.textField}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            margin="normal"
-          />
-          <TextField
-            id="standard-number"
-            label="Initial Gas"
-            value={this.state.initialGasCost}
-            onChange={this.handleChange('initialGasCost')}
-            type="number"
-            className={classes.textField}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            margin="normal"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={this.state.ifQuant}
-                onChange={this.handleChange('ifQuant')}
-                value="ifQuant"
-                margin="normal"
-              />
-            }
-            label="Test with Quantstamp"
-          />
-          <QuantForm />
-        </div>
+        return (
+          <div>
+            <TextField
+              id="standard-number"
+              label="Number of Users"
+              value={this.state.noOfUsers}
+              onChange={this.handleChange('noOfUsers')}
+              type="number"
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              margin="normal"
+            />
+            <TextField
+              id="standard-number"
+              label="Initial Gas"
+              value={this.state.initialGasCost}
+              onChange={this.handleChange('initialGasCost')}
+              type="number"
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              margin="normal"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={this.state.ifQuant}
+                  onChange={this.handleChange('ifQuant')}
+                  value="ifQuant"
+                  margin="normal"
+                />
+              }
+              label="Test with Quantstamp"
+            />
+            <QuantForm />
+          </div>
+        )
       default:
         return 'Whooops mate!'
     }
@@ -250,7 +280,7 @@ class Home extends Component {
           <Toolbar color="inherit">
             <Typography variant="title" color="inherit">
               <b>Chain</b>Stats
-          </Typography>
+            </Typography>
           </Toolbar>
         </AppBar>
         <Stepper activeStep={activeStep}>
@@ -258,7 +288,9 @@ class Home extends Component {
             const props = {}
             const labelProps = {}
             if (this.isStepOptional(index)) {
-              labelProps.optional = <Typography variant="caption">Optional</Typography>
+              labelProps.optional = (
+                <Typography variant="caption">Optional</Typography>
+              )
             }
             if (this.isStepSkipped(index)) {
               props.completed = false
@@ -272,58 +304,85 @@ class Home extends Component {
         </Stepper>
         <div>
           {activeStep === steps.length ? (
-            <Button onClick={this.handleReset} className={classes.button}>Reset</Button>
+            <Button onClick={this.handleReset} className={classes.button}>
+              Reset
+            </Button>
           ) : (
+            <div>
+              {/* <Typography className={classes.instructions}> */}
+              {this.getStepContent(activeStep, classes)}
+              {/* </Typography> */}
               <div>
-                {/* <Typography className={classes.instructions}> */}
-                {this.getStepContent(activeStep, classes)}
-                {/* </Typography> */}
-                <div>
-                  <Button disabled={activeStep === 0} onClick={this.handleBack} className={classes.button}>Back</Button>
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={this.handleBack}
+                  className={classes.button}
+                >
+                  Back
+                </Button>
 
-                  {this.isStepOptional(activeStep) && (
-                    <Button variant="contained" color="primary" onClick={this.handleSkip} className={classes.button}>Skip</Button>
-                  )}
+                {this.isStepOptional(activeStep) && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={this.handleSkip}
+                    className={classes.button}
+                  >
+                    Skip
+                  </Button>
+                )}
 
-                  {
-                    activeStep === steps.length - 1 ?
-                      <Mutation mutation={RUN_TEST}>
-                        {(go, { error, loading }) => {
-                          if (loading) return <p>Loading...</p>
-                          if (error) {
-                            alert(error)
-                          }
+                {activeStep === steps.length - 1 ? (
+                  <Mutation mutation={RUN_TEST}>
+                    {(go, { error, loading }) => {
+                      if (loading) return <p>Loading...</p>
+                      if (error) {
+                        alert(error)
+                      }
 
-                          return <Button className={classes.button}
-                            onClick={
-                              async () => {
-                                console.log(this.state)
-                                await go({
-                                  variables: {
-                                    sol: this.state.sol,
-                                    nodeAddress: this.state.nodeAddress,
-                                    noOfUsers: this.state.noOfUsers,
-                                    initialGasCost: this.state.initialGasCost,
-                                    contractAddress: this.state.contractAddress,
-                                    abi: this.state.contractAbi,
-                                    contractName: this.state.contractName
-                                  }
-                                })
-                                // console.log(this.state.noOfUsers)
-                                localStorage.setItem('numUsers', this.state.noOfUsers)
-                                history.push('/results')
-                              }
-                            }>Go</Button>
-                        }}
-                      </Mutation>
-                      :
-                      <Button variant="contained" color="primary" onClick={this.handleNext} className={classes.button}>Next</Button>
-                  }
-                </div>
+                      return (
+                        <Button
+                          className={classes.button}
+                          onClick={async () => {
+                            console.log(this.state)
+                            await go({
+                              variables: {
+                                sol: this.state.sol,
+                                nodeAddress: this.state.nodeAddress,
+                                noOfUsers: this.state.noOfUsers,
+                                initialGasCost: this.state.initialGasCost,
+                                contractAddress: this.state.contractAddress,
+                                abi: this.state.contractAbi,
+                                contractName: this.state.contractName,
+                              },
+                            })
+                            // console.log(this.state.noOfUsers)
+                            localStorage.setItem(
+                              'numUsers',
+                              this.state.noOfUsers,
+                            )
+                            history.push('/results')
+                          }}
+                        >
+                          Go
+                        </Button>
+                      )
+                    }}
+                  </Mutation>
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={this.handleNext}
+                    className={classes.button}
+                  >
+                    Next
+                  </Button>
+                )}
               </div>
-            )}
+            </div>
+          )}
         </div>
-
       </div>
     )
   }
