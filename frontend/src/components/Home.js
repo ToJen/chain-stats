@@ -77,25 +77,61 @@ class Home extends Component {
   state = {
     activeStep: 0,
     skipped: new Set(),
-    sol: ` pragma solidity ^0.4.24;
+    sol: `pragma solidity ^0.4.24;
 
-        contract Bakery {
 
-          address public baker;
-          address[] public cookies;
+contract Stock {
 
-          event Baked(address _theNewCookie);
+    struct stock {
+        uint256 cookies;
+    }
+    stock S;
+    
+    constructor(uint256 count) public{
+         for (uint256 i = 0; i < count; i++) {
+          S.cookies++;
+        }
+    }
+    
+     function transferCookies(uint256 count) public returns(uint256){
+        uint256 cookies = S.cookies;
+         S.cookies-= count;
+         return cookies;
+    }
+}
 
-          constructor() public {
-            baker = msg.sender;
-          }
 
-          function addCookie(address newCookie) public {
-            cookies.push(newCookie);
-            emit Baked(newCookie);
-          }
+contract Bakery {
 
-        }`,
+    address public  baker;
+    address[] public cookies;
+    
+    event Baked(address _theNewCookie);
+   
+     uint256 public cookieCount;
+    
+    constructor() public {
+      baker = msg.sender;
+    }
+    
+    function addCookie(address newCookie) public {
+        cookies.push(newCookie);
+        emit Baked(newCookie);
+    }
+    
+    function stockUp(uint256 count) public{
+        require(count<20);
+        Stock stock = new Stock(count);
+        bakeCookie(stock.transferCookies(count));
+    }
+
+    function bakeCookie(uint256 count) public returns(uint256){
+        for (uint256 i = 0; i < count; i++) {
+          cookieCount++;
+        }
+        return cookieCount;
+    }
+}`,
     nodeAddress: 'http://127.0.0.1:8545',
     contractName: 'Bakery',
     contractAddress: '',
@@ -156,8 +192,8 @@ class Home extends Component {
     name === 'qspChecked'
       ? this.setState({ [name]: event.target.checked })
       : this.setState({
-          [name]: event.target.value,
-        })
+        [name]: event.target.value,
+      })
   }
 
   updateSOL(event) {
@@ -328,81 +364,81 @@ class Home extends Component {
               Reset
             </Button>
           ) : (
-            <div>
-              {/* <Typography className={classes.instructions}> */}
-              {this.getStepContent(activeStep, classes)}
-              {/* </Typography> */}
               <div>
-                <Button
-                  disabled={activeStep === 0}
-                  onClick={this.handleBack}
-                  className={classes.button}
-                >
-                  Back
+                {/* <Typography className={classes.instructions}> */}
+                {this.getStepContent(activeStep, classes)}
+                {/* </Typography> */}
+                <div>
+                  <Button
+                    disabled={activeStep === 0}
+                    onClick={this.handleBack}
+                    className={classes.button}
+                  >
+                    Back
                 </Button>
 
-                {this.isStepOptional(activeStep) && (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.handleSkip}
-                    className={classes.button}
-                  >
-                    Skip
+                  {this.isStepOptional(activeStep) && (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={this.handleSkip}
+                      className={classes.button}
+                    >
+                      Skip
                   </Button>
-                )}
+                  )}
 
-                {activeStep === steps.length - 1 ? (
-                  <Mutation mutation={RUN_TEST}>
-                    {(go, { error }) => {
-                      if (error) {
-                        alert(error)
-                      }
+                  {activeStep === steps.length - 1 ? (
+                    <Mutation mutation={RUN_TEST}>
+                      {(go, { error }) => {
+                        if (error) {
+                          alert(error)
+                        }
 
-                      return (
-                        <Button
-                          className={classes.button}
-                          variant="raised"
-                          color="secondary"
-                          onClick={async () => {
-                            console.log(this.state)
-                            go({
-                              variables: {
-                                sol: this.state.sol,
-                                nodeAddress: this.state.nodeAddress,
-                                noOfUsers: this.state.noOfUsers,
-                                initialGasCost: this.state.initialGasCost,
-                                contractAddress: this.state.contractAddress,
-                                abi: this.state.contractAbi,
-                                contractName: this.state.contractName,
-                              },
-                            })
-                            // console.log(this.state.noOfUsers)
-                            localStorage.setItem(
-                              'numUsers',
-                              this.state.noOfUsers,
-                            )
-                            history.push('/results')
-                          }}
-                        >
-                          Go!
+                        return (
+                          <Button
+                            className={classes.button}
+                            variant="raised"
+                            color="secondary"
+                            onClick={async () => {
+                              console.log(this.state)
+                              go({
+                                variables: {
+                                  sol: this.state.sol,
+                                  nodeAddress: this.state.nodeAddress,
+                                  noOfUsers: this.state.noOfUsers,
+                                  initialGasCost: this.state.initialGasCost,
+                                  contractAddress: this.state.contractAddress,
+                                  abi: this.state.contractAbi,
+                                  contractName: this.state.contractName,
+                                },
+                              })
+                              // console.log(this.state.noOfUsers)
+                              localStorage.setItem(
+                                'numUsers',
+                                this.state.noOfUsers,
+                              )
+                              history.push('/results')
+                            }}
+                          >
+                            Go!
                         </Button>
-                      )
-                    }}
-                  </Mutation>
-                ) : (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.handleNext}
-                    className={classes.button}
-                  >
-                    Next
+                        )
+                      }}
+                    </Mutation>
+                  ) : (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={this.handleNext}
+                        className={classes.button}
+                      >
+                        Next
                   </Button>
-                )}
+                    )}
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </div>
       </div>
     )
