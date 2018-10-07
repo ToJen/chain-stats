@@ -13,16 +13,9 @@ import { withStyles } from '@material-ui/core/styles'
 // import DeployedDetails from './DeployedDetails'
 // import TestParameters from './TestParameters'
 import withRoot from '../withRoot'
-import { Subscription } from 'react-apollo'
-
 import { gql } from 'apollo-boost'
 import { Mutation } from 'react-apollo'
 
-const USER_RESULTS_SUBSCRIPTION = gql`
-  subscription userResult {
-    userResult
-  }
-`
 
 const RUN_TEST = gql`
   mutation Go($sol: String!, $nodeAddress: String!, $noOfUsers: Int!, $initialGasCost: Int!, $contractAddress: String, $abi: String, $contractName: String!) {
@@ -54,21 +47,15 @@ const styles = theme => ({
 
 class Home extends Component {
   state = {
-    perFunction: [],
-    perUser: {
-      timeElapsed: [],
-      failedFunctions: [],
-      gasUsed: [],
-    },
     activeStep: 0,
     skipped: new Set(),
-    sol: '',
-    nodeAddress: '',
-    contractName: '',
+    sol: 'pragma solidity ^0.4.24;contract Bakery { address public  baker; address[] public cookies; event Baked(address _theNewCookie); constructor() public { baker = msg.sender; } function addCookie(address newCookie) public { cookies.push(newCookie); emit Baked(newCookie);   } }',
+    nodeAddress: 'http://127.0.0.1:8545',
+    contractName: 'Bakery',
     contractAddress: '',
     contractAbi: '',
-    noOfUsers: '',
-    initialGasCost: ''
+    noOfUsers: '4',
+    initialGasCost: 1000000
   }
 
   isStepOptional = step => {
@@ -220,37 +207,12 @@ class Home extends Component {
   }
 
   render() {
-    const { classes } = this.props
-    const { perFunction, perUser, activeStep } = this.state
+    const { classes, history } = this.props
+    const { activeStep } = this.state
     const steps = this.getSteps()
 
     return (
       <div className={classes.root}>
-        <Subscription
-          subscription={USER_RESULTS_SUBSCRIPTION}
-          onSubscriptionData={({
-            subscriptionData: { data: { userResult } },
-          }) => {
-            const { perFunction, perUser } = JSON.parse(userResult)
-            console.dir(JSON.parse(userResult))
-            this.setState(state => {
-              return {
-                perFunction: [...state.perFunction, ...perFunction],
-                perUser: {
-                  timeElapsed: [
-                    ...state.perUser.timeElapsed,
-                    ...perUser.timeElapsed,
-                  ],
-                  failedFunctions: [
-                    ...state.perUser.failedFunctions,
-                    ...perUser.failedFunctions,
-                  ],
-                  gasUsed: [...state.perUser.gasUsed, ...perUser.gasUsed],
-                },
-              }
-            })
-          }}
-        />
 
         {/* <Typography variant="display1" gutterBottom>
           <font color="White">Chain</font>
@@ -297,13 +259,15 @@ class Home extends Component {
                       <Mutation mutation={RUN_TEST}>
                         {(go, { error, loading }) => {
                           if (loading) return <p>Loading...</p>
-                          if (error) console.dir(error)
+                          if (error) {
+                            alert(error)
+                          }
 
                           return <Button className={classes.button}
                             onClick={
-                              () => {
+                              async () => {
                                 console.log(this.state)
-                                go({
+                                await go({
                                   variables: {
                                     sol: this.state.sol,
                                     nodeAddress: this.state.nodeAddress,
@@ -314,6 +278,7 @@ class Home extends Component {
                                     contractName: this.state.contractName
                                   }
                                 })
+                                history.push('/results')
                               }
                             }>Go</Button>
                         }}
@@ -326,18 +291,6 @@ class Home extends Component {
             )}
         </div>
 
-        (perFunction:
-        {perFunction.map((item, index) => {
-          return <h4 key={index}>User Result: {JSON.stringify(item)}</h4>
-        })}
-        PerUser:
-        {Object.keys(perUser).map((item, index) => {
-          return (
-            <h4 key={index}>
-              {item}:{JSON.stringify(perUser[item])}
-            </h4>
-          )
-        })})
       </div>
     )
   }

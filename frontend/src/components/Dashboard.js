@@ -1,28 +1,37 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import {withStyles} from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import {mainListItems, secondaryListItems} from './listItems';
-import SimpleLineChart from './SimpleLineChart';
-import SimpleTable from './SimpleTable';
+import React from 'react'
+import PropTypes from 'prop-types'
+import classNames from 'classnames'
+import { withStyles } from '@material-ui/core/styles'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import Drawer from '@material-ui/core/Drawer'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import List from '@material-ui/core/List'
+import Typography from '@material-ui/core/Typography'
+import Divider from '@material-ui/core/Divider'
+import IconButton from '@material-ui/core/IconButton'
+import Badge from '@material-ui/core/Badge'
+import MenuIcon from '@material-ui/icons/Menu'
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
+import NotificationsIcon from '@material-ui/icons/Notifications'
+import { mainListItems, secondaryListItems } from './listItems'
+import SimpleLineChart from './SimpleLineChart'
+import SimpleTable from './SimpleTable'
 import SuccessFailPieChart from './SuccessFailPieChart'
-import TimeTakenChart from './TimeTakenChart';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
+import TimeTakenChart from './TimeTakenChart'
+import Paper from '@material-ui/core/Paper'
+import Grid from '@material-ui/core/Grid'
+import { Subscription } from 'react-apollo'
+import { gql } from 'apollo-boost'
 
-const drawerWidth = 240;
+const drawerWidth = 240
+
+
+const USER_RESULTS_SUBSCRIPTION = gql`
+  subscription userResult {
+    userResult
+  }
+`
 
 const styles = theme => ({
     root: {
@@ -45,9 +54,9 @@ const styles = theme => ({
             .create([
                 'width', 'margin'
             ], {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.leavingScreen
-            })
+                    easing: theme.transitions.easing.sharp,
+                    duration: theme.transitions.duration.leavingScreen
+                })
     },
     appBarShift: {
         marginLeft: drawerWidth,
@@ -57,9 +66,9 @@ const styles = theme => ({
             .create([
                 'width', 'margin'
             ], {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.enteringScreen
-            })
+                    easing: theme.transitions.easing.sharp,
+                    duration: theme.transitions.duration.enteringScreen
+                })
     },
     menuButton: {
         marginLeft: 12,
@@ -112,10 +121,16 @@ const styles = theme => ({
     tableContainer: {
         height: 320
     }
-});
+})
 
 class Dashboard extends React.Component {
     state = {
+        perFunction: [],
+        perUser: {
+            timeElapsed: [],
+            failedFunctions: [],
+            gasUsed: [],
+        },
         open: true,
         failRate: 10,
         timeTakenData: [
@@ -144,28 +159,54 @@ class Dashboard extends React.Component {
     };
 
     handleDrawerOpen = () => {
-        this.setState({open: true});
+        this.setState({ open: true })
     };
 
     handleDrawerClose = () => {
-        this.setState({open: false});
+        this.setState({ open: false })
     };
 
     render() {
-        const {classes} = this.props;
+        const { classes } = this.props
+        const { perFunction, perUser } = this.state
 
         return (
             <React.Fragment>
-                <CssBaseline/>
+                <CssBaseline />
                 <div className={classes.root}>
+                    <Subscription
+                        subscription={USER_RESULTS_SUBSCRIPTION}
+                        onSubscriptionData={({
+                            subscriptionData: { data: { userResult } },
+                        }) => {
+                            const { perFunction, perUser } = JSON.parse(userResult)
+                            console.dir(JSON.parse(userResult))
+                            this.setState(state => {
+                                return {
+                                    perFunction: [...state.perFunction, ...perFunction],
+                                    perUser: {
+                                        timeElapsed: [
+                                            ...state.perUser.timeElapsed,
+                                            ...perUser.timeElapsed,
+                                        ],
+                                        failedFunctions: [
+                                            ...state.perUser.failedFunctions,
+                                            ...perUser.failedFunctions,
+                                        ],
+                                        gasUsed: [...state.perUser.gasUsed, ...perUser.gasUsed],
+                                    },
+                                }
+                            })
+                        }}
+                    />
                     <AppBar position="absolute" className={classNames(classes.appBar)}>
                         <Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
                             <IconButton
                                 color="inherit"
                                 aria-label="Open drawer"
                                 onClick={this.handleDrawerOpen}
-                                className={classNames(classes.menuButton, this.state.open && classes.menuButtonHidden,)}>
-                                <MenuIcon/>
+                                className={classNames(classes.menuButton, this.state.open && classes.menuButtonHidden)}>
+                                <MenuIcon />
                             </IconButton>
                             <Typography
                                 component="h1"
@@ -177,34 +218,47 @@ class Dashboard extends React.Component {
                             </Typography>
                             <IconButton color="inherit">
                                 <Badge badgeContent={4} color="secondary">
-                                    <NotificationsIcon/>
+                                    <NotificationsIcon />
                                 </Badge>
                             </IconButton>
                         </Toolbar>
                     </AppBar>
 
                     <main className={classes.content}>
-                        <div className={classes.appBarSpacer}/>
+                        <div className={classes.appBarSpacer} />
                         <Grid container spacing={24}>
                             <Grid item md>
-                                <SimpleLineChart data={this.state.timeTakenData}/>
+                                <SimpleLineChart data={this.state.timeTakenData} />
                             </Grid>
                             <Grid item md>
-                                <SuccessFailPieChart failRate={this.state.failRate}/>
+                                <SuccessFailPieChart failRate={this.state.failRate} />
                             </Grid>
                             <Grid item md>
-                                <TimeTakenChart data={this.state.timeTakenData}/>
+                                <TimeTakenChart data={this.state.timeTakenData} />
                             </Grid>
                         </Grid>
+
+                        (perFunction:
+        {perFunction.map((item, index) => {
+                            return <h4 key={index}>User Result: {JSON.stringify(item)}</h4>
+                        })}
+                        PerUser:
+        {Object.keys(perUser).map((item, index) => {
+                            return (
+                                <h4 key={index}>
+                                    {item}:{JSON.stringify(perUser[item])}
+                                </h4>
+                            )
+                        })})
                     </main>
                 </div>
             </React.Fragment>
-        );
+        )
     }
 }
 
 Dashboard.propTypes = {
     classes: PropTypes.object.isRequired
-};
+}
 
-export default withStyles(styles)(Dashboard);
+export default withStyles(styles)(Dashboard)
