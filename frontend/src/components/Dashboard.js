@@ -2,21 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import Drawer from '@material-ui/core/Drawer'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
-import List from '@material-ui/core/List'
 import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
 import IconButton from '@material-ui/core/IconButton'
 import Badge from '@material-ui/core/Badge'
 import MenuIcon from '@material-ui/icons/Menu'
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import NotificationsIcon from '@material-ui/icons/Notifications'
-import { mainListItems, secondaryListItems } from './listItems'
 import SimpleLineChart from './SimpleLineChart'
-import SimpleTable from './SimpleTable'
 import SuccessFailPieChart from './SuccessFailPieChart'
 import TimeTakenChart from './TimeTakenChart'
 import Paper from '@material-ui/core/Paper'
@@ -24,10 +17,9 @@ import Grid from '@material-ui/core/Grid'
 import { Subscription } from 'react-apollo'
 import { gql } from 'apollo-boost'
 import withRoot from '../withRoot'
-import QuantFeedBack from './QuantFeedback'
-import QuantFeedback from './QuantFeedback';
+import QuantFeedback from './QuantFeedback'
 
-import { parseData, getErrorRate } from '../utils'
+import { parseData, getErrorRate, getTransactionStat } from '../utils'
 
 const drawerWidth = 240
 
@@ -143,7 +135,7 @@ const styles = theme => ({
         textAlign: 'center',
         color: theme.palette.text.primary,
         height: '400px',
-        
+
     },
     halfPaper: {
         backgroundColor: '#27293B',
@@ -151,7 +143,7 @@ const styles = theme => ({
         textAlign: 'center',
         color: theme.palette.text.primary,
         height: '200px',
-        
+
     }
 })
 
@@ -198,7 +190,27 @@ class Dashboard extends React.Component {
             }, {
                 ms: 90
             }
-        ]
+        ],
+        gasCostData: [
+            {
+                gas: 5,
+                name: 'addCookie'
+            }, {
+                gas: 42,
+                name: 'FuncTwo'
+            }, {
+                gas: 25,
+                name: 'FuncThree'
+            },
+        ],
+        minTime: '',
+        minTimeName: '',
+        maxTime: '',
+        maxTimeName: '',
+        minGas: '',
+        minGasName: '',
+        maxGas: '',
+        maxGasName: ''
     };
 
     componentDidMount() {
@@ -232,33 +244,37 @@ class Dashboard extends React.Component {
                             const { perFunction, perUser } = JSON.parse(userResult)
                             console.dir(JSON.parse(userResult))
                             const res = parseData({ ...parsedData }, perFunction)
-                            console.log(res)
+                            // console.log(res)
                             this.setState({ parsedData: res })
                             const errorRate = getErrorRate(localStorage.getItem('numUsers'), 3, res)
-                            console.log({ errorRate })
+                            // console.log({ errorRate })
                             this.setState({ failRate: errorRate })
-                            // this.setState(state => {
-                            //     return {
-                            //         perFunction: [
-                            //             ...state.perFunction,
-                            //             ...perFunction
-                            //         ],
-                            //         perUser: {
-                            //             timeElapsed: [
-                            //                 ...state.perUser.timeElapsed,
-                            //                 ...perUser.timeElapsed
-                            //             ],
-                            //             failedFunctions: [
-                            //                 ...state.perUser.failedFunctions,
-                            //                 ...perUser.failedFunctions
-                            //             ],
-                            //             gasUsed: [
-                            //                 ...state.perUser.gasUsed,
-                            //                 ...perUser.gasUsed
-                            //             ]
-                            //         }
-                            //     }
-                            // })
+                            const _timeStat = getTransactionStat(res, 'timeTaken')
+                            const _gasStat = getTransactionStat(res, 'gasSpent')
+
+                            // debugger
+                            const maxTime = _timeStat.map(i => Object.values(i)[0])[0]
+                            const maxTimeName = _timeStat.map(i => Object.keys(i)[0])[0]
+
+                            const minTime = _timeStat.map(i => Object.values(i)[0])[1]
+                            const minTimeName = _timeStat.map(i => Object.keys(i)[0])[1]
+
+                            const maxGas = _gasStat.map(i => Object.values(i)[0])[0]
+                            const maxGasName = _gasStat.map(i => Object.keys(i)[0])[0]
+
+                            const minGas = _gasStat.map(i => Object.values(i)[0])[1]
+                            const minGasName = _gasStat.map(i => Object.keys(i)[0])[1]
+
+                            this.setState({
+                                minTime,
+                                minTimeName,
+                                maxTime,
+                                maxTimeName,
+                                minGas,
+                                minGasName,
+                                maxGas,
+                                maxGasName
+                            })
                         }} />
                     <AppBar position="absolute" color="primary">
                         <Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
@@ -295,19 +311,19 @@ class Dashboard extends React.Component {
                                         variant="title"
                                         color="inherit"
                                         noWrap
-                                        className={classes.title}>Fastest Transaction</Typography>
-                                        <Typography
+                                        className={classes.title}>Fastest Function</Typography>
+                                    <Typography
                                         component="h1"
                                         variant="title"
                                         color="inherit"
                                         noWrap
-                                        className={classes.number}>15</Typography>
-                                        <Typography
+                                        className={classes.number}>{this.state.minTime}</Typography>
+                                    <Typography
                                         component="h1"
                                         variant="title"
                                         color="inherit"
                                         noWrap
-                                        className={classes.subTitle}>main()</Typography>
+                                        className={classes.subTitle}>{this.state.minTimeName}</Typography>
                                 </Paper>
                             </Grid>
                             <Grid item xs={3}>
@@ -317,19 +333,19 @@ class Dashboard extends React.Component {
                                         variant="title"
                                         color="inherit"
                                         noWrap
-                                        className={classes.title}>Slowest Transaction</Typography>
-                                        <Typography
+                                        className={classes.title}>Slowest Function</Typography>
+                                    <Typography
                                         component="h1"
                                         variant="title"
                                         color="inherit"
                                         noWrap
-                                        className={classes.number}>15</Typography>
-                                        <Typography
+                                        className={classes.number}>{this.state.maxTime}</Typography>
+                                    <Typography
                                         component="h1"
                                         variant="title"
                                         color="inherit"
                                         noWrap
-                                        className={classes.subTitle}>main()</Typography>
+                                        className={classes.subTitle}>{this.state.maxTimeName}</Typography>
                                 </Paper>
                             </Grid>
                             <Grid item xs={3}>
@@ -339,19 +355,19 @@ class Dashboard extends React.Component {
                                         variant="title"
                                         color="inherit"
                                         noWrap
-                                        className={classes.title}>Optimal Gas Amount</Typography>
-                                        <Typography
+                                        className={classes.title}>Most Expensive Function</Typography>
+                                    <Typography
                                         component="h1"
                                         variant="title"
                                         color="inherit"
                                         noWrap
-                                        className={classes.number}>15</Typography>
-                                        <Typography
+                                        className={classes.number}>{this.state.maxGas}</Typography>
+                                    <Typography
                                         component="h1"
                                         variant="title"
                                         color="inherit"
                                         noWrap
-                                        className={classes.subTitle}>main()</Typography>
+                                        className={classes.subTitle}>{this.state.maxGasName}</Typography>
                                 </Paper>
                             </Grid>
                             <Grid item xs={3}>
@@ -361,19 +377,19 @@ class Dashboard extends React.Component {
                                         variant="title"
                                         color="inherit"
                                         noWrap
-                                        className={classes.title}>Predicted Transaction Time</Typography>
-                                        <Typography
+                                        className={classes.title}>Cheapest Function</Typography>
+                                    <Typography
                                         component="h1"
                                         variant="title"
                                         color="inherit"
                                         noWrap
-                                        className={classes.number}>15</Typography>
-                                        <Typography
+                                        className={classes.number}>{this.state.minGas}</Typography>
+                                    <Typography
                                         component="h1"
                                         variant="title"
                                         color="inherit"
                                         noWrap
-                                        className={classes.subTitle}>main()</Typography>
+                                        className={classes.subTitle}>{this.state.minGasName}</Typography>
                                 </Paper>
                             </Grid>
                             <Grid item xs={6}>
@@ -383,8 +399,8 @@ class Dashboard extends React.Component {
                                         variant="title"
                                         color="inherit"
                                         noWrap
-                                        className={classes.title}>Gas Cost vs Time</Typography>
-                                    <SimpleLineChart data={this.state.timeTakenData} />
+                                        className={classes.title}>Gas Cost by Contract Function</Typography>
+                                    <SimpleLineChart data={this.state.gasCostData} dataKey="gas" />
                                 </Paper>
                             </Grid>
                             <Grid item xs={6}>
@@ -394,8 +410,8 @@ class Dashboard extends React.Component {
                                         variant="title"
                                         color="inherit"
                                         noWrap
-                                        className={classes.title}>Time vs. Functions</Typography>
-                                    <TimeTakenChart data={this.state.timeTakenData} />
+                                        className={classes.title}>Time vs. Contract Functions</Typography>
+                                    <TimeTakenChart data={this.state.gasCostData} />
                                 </Paper>
                             </Grid>
                             <Grid item xs={4}>
@@ -411,23 +427,29 @@ class Dashboard extends React.Component {
                             </Grid>
                             <Grid item xs={6}>
                                 <Paper className={classes.paper}>
-                                    <SimpleLineChart data={this.state.timeTakenData} />
+                                    <Typography
+                                        component="h1"
+                                        variant="title"
+                                        color="inherit"
+                                        noWrap
+                                        className={classes.title}>Gas vs Time</Typography>
+                                    <SimpleLineChart data={this.state.timeTakenData} dataKey="ms" />
                                 </Paper>
                             </Grid>
                             <Grid item xs={4}>
                                 <Paper className={classes.paper}>
-                                <Typography
-                                    component="h1"
-                                    variant="title"
-                                    color="inherit"
-                                    noWrap
-                                    className={classes.title}>Vulnerabilities by Quantstamp</Typography>
-                                    <QuantFeedback/>
+                                    <Typography
+                                        component="h1"
+                                        variant="title"
+                                        color="inherit"
+                                        noWrap
+                                        className={classes.title}>Vulnerabilities by Quantstamp</Typography>
+                                    <QuantFeedback />
                                 </Paper>
                             </Grid>
                         </Grid>
 
-                        perFunction: <h4>User Result: {JSON.stringify(parsedData)}</h4>
+                        {/* perFunction: <h4>User Result: {JSON.stringify(parsedData)}</h4> */}
 
                         {/* PerUser: {Object
                             .keys(perUser)
