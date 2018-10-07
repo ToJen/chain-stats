@@ -6,6 +6,7 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
+import LinearProgress from '@material-ui/core/LinearProgress'
 import Badge from '@material-ui/core/Badge'
 import MenuIcon from '@material-ui/icons/Menu'
 import CloseIcon from '@material-ui/icons/Close'
@@ -237,7 +238,7 @@ class Dashboard extends React.Component {
   handleClose = () => {
     this.setState({ notificationOpen: false })
   }
-
+  setUsers = Number(localStorage.getItem('numUsers'))
   render() {
     const { classes } = this.props
     const {
@@ -381,6 +382,12 @@ class Dashboard extends React.Component {
 
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
+            <LinearProgress
+              variant="buffer"
+              value={numUsers / this.setUsers * 100}
+              valueBuffer={10}
+              style={{ paddingBottom: '10px', marginBottom: '15px' }}
+            />
             <Grid container spacing={24}>
               <Grid item xs={3}>
                 <Paper className={classes.halfPaper}>
