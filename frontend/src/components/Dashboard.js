@@ -77,7 +77,8 @@ const styles = theme => ({
         display: 'none'
     },
     title: {
-        flexGrow: 1
+        flexGrow: 1,
+        marginBottom: "10px"
     },
     number: {
         flexGrow: 1,
