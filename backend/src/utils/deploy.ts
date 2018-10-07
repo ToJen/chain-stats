@@ -1,15 +1,19 @@
 // const Web3 = require('web3')
-// const path = require('path')
-// const fs = require('fs')
+const path = require('path')
+const fs = require('fs')
 const solc = require('solc')
 import getWeb3 from './getWeb3'
 
-const deploy = async (nodeAddress: string, source: string, contractName: string) => {
+const deploy = async (
+  nodeAddress: string,
+  _source: string,
+  _contractName: string
+) => {
   const web3 = getWeb3(nodeAddress)
-  //   const contractPath = path.resolve(__dirname, 'contracts', 'Bakery.sol')
-  //   const source = fs.readFileSync(contractPath, 'utf8')
+  const contractPath = path.resolve(__dirname, 'contracts', 'Bakery.sol')
+  const source = fs.readFileSync(contractPath, 'utf8')
   const { interface: _interface, bytecode } = solc.compile(source, 1).contracts[
-    ':' + contractName
+    ':Bakery'
   ]
   const accounts = await web3.eth.getAccounts()
 
