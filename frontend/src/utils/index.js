@@ -67,24 +67,8 @@
 // let res = {sums, vals}
 // console.log(res)
 
-export const parseData = (data) => {
-    let res = {
-        'addCookie': {
-            'gasSpent': 0,
-            'timeTaken': 0,
-            'errorCount': 0
-        },
-        'FuncTwo': {
-            'gasSpent': 0,
-            'timeTaken': 0,
-            'errorCount': 0
-        },
-        'FuncThree': {
-            'gasSpent': 0,
-            'timeTaken': 0,
-            'errorCount': 0
-        }
-    }
+export const parseData = (res, data) => {
+
 
     // let arr = [{
     //     'addCookie': {

@@ -6,31 +6,37 @@ import ResponsiveContainer from 'recharts/lib/component/ResponsiveContainer'
 const COLORS = ['#C453AD', '#78909c']
 
 class SuccessFailPieChart extends React.Component {
-    state = {
-        data: [
-            {
-                name: 'Success:',
-                value: 100.0 - this.props.failRate
-            }, {
-                name: 'Fail:',
-                value: this.props.failRate
-            }
-        ]
-    };
+    // state = {
+    //     data: []
+    // };
 
     render() {
-        const { value } = this.state
+
+        const failRate = Math.round(this.props.failRate)
+
+        const data = [
+            {
+                name: 'Success:',
+                value: 100.0 - failRate
+            }, {
+                name: 'Fail:',
+                value: failRate
+            }
+        ]
+
         return (
             <ResponsiveContainer width="100%">
                 <PieChart>
                     <Pie
-                        data={this.state.data}
+                        dataKey="value"
+                        data={data}
                         outerRadius={100}
                         label>
                         {
-                            this.state.data.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]} />)
+                            data.map((entry, index) => <Cell key={index} fill={COLORS[index % COLORS.length]} />)
                         }</Pie>
                     <Tooltip />
+                    <Legend />
                 </PieChart>
             </ResponsiveContainer>
         )
