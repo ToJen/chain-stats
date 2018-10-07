@@ -35,11 +35,6 @@ class QuantStamp extends Component {
   componentWillMount() {
   }
 
-  authorizeQuantStamp() {
-      
-
-  }
-
   render() {
     return (
         <p>Coinbase: {this.state.coinbase}</p>

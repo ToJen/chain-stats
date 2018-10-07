@@ -24,7 +24,8 @@ import Grid from '@material-ui/core/Grid'
 import {Subscription} from 'react-apollo'
 import {gql} from 'apollo-boost'
 import withRoot from '../withRoot'
-
+import QuantFeedBack from './QuantFeedback'
+import QuantFeedback from './QuantFeedback';
 const drawerWidth = 240
 
 const USER_RESULTS_SUBSCRIPTION = gql `
@@ -280,6 +281,17 @@ class Dashboard extends React.Component {
                             <Grid item xs={6}>
                                 <Paper className={classes.paper}>
                                     <SimpleLineChart data={this.state.timeTakenData}/>
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Paper className={classes.paper}>
+                                <Typography
+                                    component="h1"
+                                    variant="title"
+                                    color="inherit"
+                                    noWrap
+                                    className={classes.title}>Vulnerabilities by Quantstamp</Typography>
+                                    <QuantFeedback/>
                                 </Paper>
                             </Grid>
                         </Grid>
