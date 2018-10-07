@@ -201,16 +201,16 @@ class Home extends Component {
             margin="normal"
           />
           <FormControlLabel
-                    control={
-                    <Checkbox
-                    checked={this.state.ifQuant}
-                    onChange={this.handleChange('ifQuant')}
-                    value="ifQuant"
-                    margin="normal"
-                    />
-                    }
-                    label="Test with Quantstamp"
-            />
+            control={
+              <Checkbox
+                checked={this.state.ifQuant}
+                onChange={this.handleChange('ifQuant')}
+                value="ifQuant"
+                margin="normal"
+              />
+            }
+            label="Test with Quantstamp"
+          />
         </div>
       default:
         return 'Whooops mate!'
@@ -228,13 +228,13 @@ class Home extends Component {
 
     return (
       <div className={classes.root}>
-      <AppBar position="static" color="primary">
-        <Toolbar color="inherit">
-          <Typography variant="title" color="inherit">
-            <b>Chain</b>Stats
+        <AppBar position="static" color="primary">
+          <Toolbar color="inherit">
+            <Typography variant="title" color="inherit">
+              <b>Chain</b>Stats
           </Typography>
-        </Toolbar>
-      </AppBar>
+          </Toolbar>
+        </AppBar>
         <Stepper activeStep={activeStep}>
           {steps.map((label, index) => {
             const props = {}
@@ -291,6 +291,8 @@ class Home extends Component {
                                     contractName: this.state.contractName
                                   }
                                 })
+                                // console.log(this.state.noOfUsers)
+                                localStorage.setItem('numUsers', this.state.noOfUsers)
                                 history.push('/results')
                               }
                             }>Go</Button>

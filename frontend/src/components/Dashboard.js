@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import {withStyles} from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Drawer from '@material-ui/core/Drawer'
 import AppBar from '@material-ui/core/AppBar'
@@ -14,20 +14,22 @@ import Badge from '@material-ui/core/Badge'
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import NotificationsIcon from '@material-ui/icons/Notifications'
-import {mainListItems, secondaryListItems} from './listItems'
+import { mainListItems, secondaryListItems } from './listItems'
 import SimpleLineChart from './SimpleLineChart'
 import SimpleTable from './SimpleTable'
 import SuccessFailPieChart from './SuccessFailPieChart'
 import TimeTakenChart from './TimeTakenChart'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
-import {Subscription} from 'react-apollo'
-import {gql} from 'apollo-boost'
+import { Subscription } from 'react-apollo'
+import { gql } from 'apollo-boost'
 import withRoot from '../withRoot'
+
+import { parseData, getErrorRate } from '../utils'
 
 const drawerWidth = 240
 
-const USER_RESULTS_SUBSCRIPTION = gql `
+const USER_RESULTS_SUBSCRIPTION = gql`
   subscription userResult {
     userResult
   }
@@ -56,9 +58,9 @@ const styles = theme => ({
             .create([
                 'width', 'margin'
             ], {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.leavingScreen
-            })
+                    easing: theme.transitions.easing.sharp,
+                    duration: theme.transitions.duration.leavingScreen
+                })
     },
     appBarShift: {
         marginLeft: drawerWidth,
@@ -68,9 +70,9 @@ const styles = theme => ({
             .create([
                 'width', 'margin'
             ], {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.enteringScreen
-            })
+                    easing: theme.transitions.easing.sharp,
+                    duration: theme.transitions.duration.enteringScreen
+                })
     },
     menuButton: {
         marginLeft: 12,
@@ -124,7 +126,7 @@ const styles = theme => ({
         height: 320
     },
     paper: {
-        backgroundColor: "#27293B",
+        backgroundColor: '#27293B',
         padding: theme.spacing.unit * 2,
         textAlign: 'center',
         color: theme.palette.text.primary,
@@ -134,14 +136,25 @@ const styles = theme => ({
 
 class Dashboard extends React.Component {
     state = {
-        perFunction: [],
-        perUser: {
-            timeElapsed: [],
-            failedFunctions: [],
-            gasUsed: []
+        parsedData: {
+            'addCookie': {
+                'gasSpent': 0,
+                'timeTaken': 0,
+                'errorCount': 0
+            },
+            'FuncTwo': {
+                'gasSpent': 0,
+                'timeTaken': 0,
+                'errorCount': 0
+            },
+            'FuncThree': {
+                'gasSpent': 0,
+                'timeTaken': 0,
+                'errorCount': 0
+            }
         },
         open: true,
-        failRate: 10,
+        failRate: 0,
         timeTakenData: [
             {
                 ms: 5
@@ -167,17 +180,21 @@ class Dashboard extends React.Component {
         ]
     };
 
+    componentDidMount() {
+        this.setState({ failRate: 50 })
+    }
+
     handleDrawerOpen = () => {
-        this.setState({open: true})
+        this.setState({ open: true })
     };
 
     handleDrawerClose = () => {
-        this.setState({open: false})
+        this.setState({ open: false })
     };
 
     render() {
-        const {classes} = this.props
-        const {perFunction, perUser} = this.state
+        const { classes } = this.props
+        const { parsedData, failRate } = this.state
 
         return (
             <React.Fragment>
@@ -185,37 +202,43 @@ class Dashboard extends React.Component {
                     <Subscription
                         subscription={USER_RESULTS_SUBSCRIPTION}
                         onSubscriptionData={({
-                        subscriptionData: {
-                            data: {
-                                userResult
-                            }
-                        }
-                    }) => {
-                        const {perFunction, perUser} = JSON.parse(userResult)
-                        console.dir(JSON.parse(userResult))
-                        this.setState(state => {
-                            return {
-                                perFunction: [
-                                    ...state.perFunction,
-                                    ...perFunction
-                                ],
-                                perUser: {
-                                    timeElapsed: [
-                                        ...state.perUser.timeElapsed,
-                                        ...perUser.timeElapsed
-                                    ],
-                                    failedFunctions: [
-                                        ...state.perUser.failedFunctions,
-                                        ...perUser.failedFunctions
-                                    ],
-                                    gasUsed: [
-                                        ...state.perUser.gasUsed,
-                                        ...perUser.gasUsed
-                                    ]
+                            subscriptionData: {
+                                data: {
+                                    userResult
                                 }
                             }
-                        })
-                    }}/>
+                        }) => {
+                            const { perFunction, perUser } = JSON.parse(userResult)
+                            console.dir(JSON.parse(userResult))
+                            const res = parseData({ ...parsedData }, perFunction)
+                            console.log(res)
+                            this.setState({ parsedData: res })
+                            const errorRate = getErrorRate(localStorage.getItem('numUsers'), 3, res)
+                            console.log({ errorRate })
+                            this.setState({ failRate: errorRate })
+                            // this.setState(state => {
+                            //     return {
+                            //         perFunction: [
+                            //             ...state.perFunction,
+                            //             ...perFunction
+                            //         ],
+                            //         perUser: {
+                            //             timeElapsed: [
+                            //                 ...state.perUser.timeElapsed,
+                            //                 ...perUser.timeElapsed
+                            //             ],
+                            //             failedFunctions: [
+                            //                 ...state.perUser.failedFunctions,
+                            //                 ...perUser.failedFunctions
+                            //             ],
+                            //             gasUsed: [
+                            //                 ...state.perUser.gasUsed,
+                            //                 ...perUser.gasUsed
+                            //             ]
+                            //         }
+                            //     }
+                            // })
+                        }} />
                     <AppBar position="absolute" color="primary">
                         <Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
                             <IconButton
@@ -223,7 +246,7 @@ class Dashboard extends React.Component {
                                 aria-label="Open drawer"
                                 onClick={this.handleDrawerOpen}
                                 className={classNames(classes.menuButton, this.state.open && classes.menuButtonHidden)}>
-                                <MenuIcon/>
+                                <MenuIcon />
                             </IconButton>
                             <Typography
                                 component="h1"
@@ -235,59 +258,58 @@ class Dashboard extends React.Component {
                             </Typography>
                             <IconButton color="inherit">
                                 <Badge badgeContent={4} color="secondary">
-                                    <NotificationsIcon/>
+                                    <NotificationsIcon />
                                 </Badge>
                             </IconButton>
                         </Toolbar>
                     </AppBar>
 
                     <main className={classes.content}>
-                        <div className={classes.appBarSpacer}/>
+                        <div className={classes.appBarSpacer} />
                         <Grid container spacing={24}>
                             <Grid item xs={6}>
                                 <Paper className={classes.paper}>
-                                <Typography
-                                    component="h1"
-                                    variant="title"
-                                    color="inherit"
-                                    noWrap
-                                    className={classes.title}>Time vs. Load</Typography>
-                                    <SimpleLineChart data={this.state.timeTakenData}/>
+                                    <Typography
+                                        component="h1"
+                                        variant="title"
+                                        color="inherit"
+                                        noWrap
+                                        className={classes.title}>Gas Cost vs Time</Typography>
+                                    <SimpleLineChart data={this.state.timeTakenData} />
                                 </Paper>
                             </Grid>
                             <Grid item xs={6}>
                                 <Paper className={classes.paper}>
-                                <Typography
-                                    component="h1"
-                                    variant="title"
-                                    color="inherit"
-                                    noWrap
-                                    className={classes.title}>Time vs. Load</Typography>
-                                    <TimeTakenChart data={this.state.timeTakenData}/>
+                                    <Typography
+                                        component="h1"
+                                        variant="title"
+                                        color="inherit"
+                                        noWrap
+                                        className={classes.title}>Time vs. Functions</Typography>
+                                    <TimeTakenChart data={this.state.timeTakenData} />
                                 </Paper>
                             </Grid>
                             <Grid item xs={6}>
                                 <Paper className={classes.paper}>
-                                <Typography
-                                    component="h1"
-                                    variant="title"
-                                    color="inherit"
-                                    noWrap
-                                    className={classes.title}>Success vs. Fail Rate</Typography>
-                                    <SuccessFailPieChart failRate={this.state.failRate}/>
+                                    <Typography
+                                        component="h1"
+                                        variant="title"
+                                        color="inherit"
+                                        noWrap
+                                        className={classes.title}>Success vs. Fail Rate</Typography>
+                                    <SuccessFailPieChart failRate={failRate} />
                                 </Paper>
                             </Grid>
                             <Grid item xs={6}>
                                 <Paper className={classes.paper}>
-                                    <SimpleLineChart data={this.state.timeTakenData}/>
+                                    <SimpleLineChart data={this.state.timeTakenData} />
                                 </Paper>
                             </Grid>
                         </Grid>
 
-                        (perFunction: {perFunction.map((item, index) => {
-                            return <h4 key={index}>User Result: {JSON.stringify(item)}</h4>
-                        })}
-                        PerUser: {Object
+                        perFunction: <h4>User Result: {JSON.stringify(parsedData)}</h4>
+
+                        {/* PerUser: {Object
                             .keys(perUser)
                             .map((item, index) => {
                                 return (
@@ -295,7 +317,7 @@ class Dashboard extends React.Component {
                                         {item}:{JSON.stringify(perUser[item])}
                                     </h4>
                                 )
-                            })})
+                            })} */}
                     </main>
                 </div>
             </React.Fragment>
