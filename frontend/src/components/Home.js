@@ -366,6 +366,8 @@ class Home extends Component {
                         return (
                           <Button
                             className={classes.button}
+                            variant="raised"
+                            color="secondary"
                             onClick={async () => {
                               console.log(this.state)
                               go({
@@ -387,7 +389,7 @@ class Home extends Component {
                               history.push('/results')
                             }}
                           >
-                            Go
+                            Go!
                         </Button>
                         )
                       }}
