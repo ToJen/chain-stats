@@ -32,4 +32,18 @@ This project was built during the [EthSanFrancisco Hackathon](https://ethsanfran
 - Launch the frontend in a new terminal window:
   - `cd frontend`
   - `yarn && yarn start` or `npm i && npm run start`
-  
+
+
+---
+
+### Benchmark Score
+
+The benchmark score is a representation of the total performance of a smart contract. It has the following criteria:
+
+- Speed
+- Guards
+- Modularity
+- Upgradability
+- Cost Efficiency
+
+![](./images/benchMarkScore.png)
