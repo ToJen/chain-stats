@@ -3,7 +3,7 @@ import Card from '@material-ui/core/Card'
 import { PieChart, Pie, Legend, Tooltip, Sector, Cell } from 'recharts'
 import ResponsiveContainer from 'recharts/lib/component/ResponsiveContainer'
 
-const COLORS = ['#C453AD', '#78909c']
+const COLORS = ['#C453AD', '#8ea4af']
 
 class SuccessFailPieChart extends React.Component {
   // state = {

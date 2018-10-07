@@ -33,7 +33,7 @@ class TimeTakenChart extends React.Component {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="gas" fill="#C453AD" />
+                    <Bar dataKey="ms" fill="#C453AD" />
                 </BarChart>
             </ResponsiveContainer>
         )

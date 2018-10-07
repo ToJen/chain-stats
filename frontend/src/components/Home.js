@@ -308,80 +308,79 @@ class Home extends Component {
               Reset
             </Button>
           ) : (
-            <div>
-              {/* <Typography className={classes.instructions}> */}
-              {this.getStepContent(activeStep, classes)}
-              {/* </Typography> */}
               <div>
-                <Button
-                  disabled={activeStep === 0}
-                  onClick={this.handleBack}
-                  className={classes.button}
-                >
-                  Back
+                {/* <Typography className={classes.instructions}> */}
+                {this.getStepContent(activeStep, classes)}
+                {/* </Typography> */}
+                <div>
+                  <Button
+                    disabled={activeStep === 0}
+                    onClick={this.handleBack}
+                    className={classes.button}
+                  >
+                    Back
                 </Button>
 
-                {this.isStepOptional(activeStep) && (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.handleSkip}
-                    className={classes.button}
-                  >
-                    Skip
+                  {this.isStepOptional(activeStep) && (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={this.handleSkip}
+                      className={classes.button}
+                    >
+                      Skip
                   </Button>
-                )}
+                  )}
 
-                {activeStep === steps.length - 1 ? (
-                  <Mutation mutation={RUN_TEST}>
-                    {(go, { error, loading }) => {
-                      if (loading) return <p>Loading...</p>
-                      if (error) {
-                        alert(error)
-                      }
+                  {activeStep === steps.length - 1 ? (
+                    <Mutation mutation={RUN_TEST}>
+                      {(go, { error }) => {
+                        if (error) {
+                          alert(error)
+                        }
 
-                      return (
-                        <Button
-                          className={classes.button}
-                          onClick={async () => {
-                            console.log(this.state)
-                            await go({
-                              variables: {
-                                sol: this.state.sol,
-                                nodeAddress: this.state.nodeAddress,
-                                noOfUsers: this.state.noOfUsers,
-                                initialGasCost: this.state.initialGasCost,
-                                contractAddress: this.state.contractAddress,
-                                abi: this.state.contractAbi,
-                                contractName: this.state.contractName,
-                              },
-                            })
-                            // console.log(this.state.noOfUsers)
-                            localStorage.setItem(
-                              'numUsers',
-                              this.state.noOfUsers,
-                            )
-                            history.push('/results')
-                          }}
-                        >
-                          Go
+                        return (
+                          <Button
+                            className={classes.button}
+                            onClick={async () => {
+                              console.log(this.state)
+                              go({
+                                variables: {
+                                  sol: this.state.sol,
+                                  nodeAddress: this.state.nodeAddress,
+                                  noOfUsers: this.state.noOfUsers,
+                                  initialGasCost: this.state.initialGasCost,
+                                  contractAddress: this.state.contractAddress,
+                                  abi: this.state.contractAbi,
+                                  contractName: this.state.contractName,
+                                },
+                              })
+                              // console.log(this.state.noOfUsers)
+                              localStorage.setItem(
+                                'numUsers',
+                                this.state.noOfUsers,
+                              )
+                              history.push('/results')
+                            }}
+                          >
+                            Go
                         </Button>
-                      )
-                    }}
-                  </Mutation>
-                ) : (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.handleNext}
-                    className={classes.button}
-                  >
-                    Next
+                        )
+                      }}
+                    </Mutation>
+                  ) : (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={this.handleNext}
+                        className={classes.button}
+                      >
+                        Next
                   </Button>
-                )}
+                    )}
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </div>
       </div>
     )

@@ -3,37 +3,37 @@
 //         "addCookie": 87
 //     },
 //     {
-//         "FuncTwo": 5004
+//         "stockUp": 5004
 //     },
 //     {
-//         "FuncThree": 3002
+//         "bakeCookie": 3002
 //     },
 //     {
 //         "addCookie": 140
 //     },
 //     {
-//         "FuncTwo": 5002
+//         "stockUp": 5002
 //     },
 //     {
-//         "FuncThree": 3004
+//         "bakeCookie": 3004
 //     },
 //     {
 //         "addCookie": 180
 //     },
 //     {
-//         "FuncTwo": 5000
+//         "stockUp": 5000
 //     },
 //     {
-//         "FuncThree": 3004
+//         "bakeCookie": 3004
 //     },
 //     {
 //         "addCookie": 181
 //     },
 //     {
-//         "FuncTwo": 5002
+//         "stockUp": 5002
 //     },
 //     {
-//         "FuncThree": 3004
+//         "bakeCookie": 3004
 //     }
 // ]
 
@@ -48,10 +48,10 @@
 //             //console.log(Object.values(i))
 //             sum1 += Number(Object.values(i))
 //             break
-//         case 'FuncTwo':
+//         case 'stockUp':
 //             sum2 += Number(i[Object.keys(i)])
 //             break
-//         case 'FuncThree':
+//         case 'bakeCookie':
 //             sum3 += Number(i[Object.keys(i)])
 //             break
 //         default:
@@ -76,12 +76,12 @@ export const parseData = (res, data) => {
     //         'timeTaken': 0,
     //         'hasError': false
     //     },
-    //     'FuncTwo': {
+    //     'stockUp': {
     //         'gasSpent': 0,
     //         'timeTaken': 0,
     //         'hasError': false
     //     },
-    //     'FuncThree': {
+    //     'bakeCookie': {
     //         'gasSpent': 0,
     //         'timeTaken': 0,
     //         'hasError': true
@@ -93,12 +93,12 @@ export const parseData = (res, data) => {
     //         'timeTaken': 0,
     //         'hasError': true
     //     },
-    //     'FuncTwo': {
+    //     'stockUp': {
     //         'gasSpent': 0,
     //         'timeTaken': 1,
     //         'hasError': false
     //     },
-    //     'FuncThree': {
+    //     'bakeCookie': {
     //         'gasSpent': 0,
     //         'timeTaken': 0,
     //         'hasError': false
@@ -110,12 +110,12 @@ export const parseData = (res, data) => {
     //         'timeTaken': 0,
     //         'hasError': true
     //     },
-    //     'FuncTwo': {
+    //     'stockUp': {
     //         'gasSpent': 80,
     //         'timeTaken': 0,
     //         'hasError': false
     //     },
-    //     'FuncThree': {
+    //     'bakeCookie': {
     //         'gasSpent': 0,
     //         'timeTaken': 23,
     //         'hasError': false
@@ -128,16 +128,16 @@ export const parseData = (res, data) => {
         const keys = Object.keys(element)
 
         keys.forEach(funcName => {
-            console.log(funcName)
+            // console.log(funcName)
             const funcStats = element[funcName]
             res[funcName].timeTaken += funcStats.timeTaken
-            console.log(res[funcName])
+            // console.log(res[funcName])
             res[funcName].gasSpent += funcStats.gasSpent
             funcStats.hasError && res[funcName].errorCount++
         })
     })
 
-    console.log(res)
+    // console.log(res)
     return res
 }
 

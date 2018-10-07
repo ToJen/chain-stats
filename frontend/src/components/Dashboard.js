@@ -12,6 +12,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications'
 import SimpleLineChart from './SimpleLineChart'
 import SuccessFailPieChart from './SuccessFailPieChart'
 import TimeTakenChart from './TimeTakenChart'
+import RadialChart from './RadialChart'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import { Subscription } from 'react-apollo'
@@ -155,12 +156,12 @@ class Dashboard extends React.Component {
                 'timeTaken': 0,
                 'errorCount': 0
             },
-            'FuncTwo': {
+            'stockUp': {
                 'gasSpent': 0,
                 'timeTaken': 0,
                 'errorCount': 0
             },
-            'FuncThree': {
+            'bakeCookie': {
                 'gasSpent': 0,
                 'timeTaken': 0,
                 'errorCount': 0
@@ -169,27 +170,37 @@ class Dashboard extends React.Component {
         open: true,
         failRate: 0,
         timeTakenData: [
+            // {
+            //     ms: 5
+            // }, {
+            //     ms: 12
+            // }, {
+            //     ms: 25
+            // }, {
+            //     ms: 57
+            // }, {
+            //     ms: 44
+            // }, {
+            //     ms: 98
+            // }, {
+            //     ms: 68
+            // }, {
+            //     ms: 71
+            // }, {
+            //     ms: 83
+            // }, {
+            //     ms: 90
+            // }
             {
-                ms: 5
+                ms: 120,
+                name: 'addCookie'
             }, {
-                ms: 12
+                ms: 40,
+                name: 'stockUp'
             }, {
-                ms: 25
-            }, {
-                ms: 57
-            }, {
-                ms: 44
-            }, {
-                ms: 98
-            }, {
-                ms: 68
-            }, {
-                ms: 71
-            }, {
-                ms: 83
-            }, {
-                ms: 90
-            }
+                ms: 70,
+                name: 'bakeCookie'
+            },
         ],
         gasCostData: [
             {
@@ -197,10 +208,10 @@ class Dashboard extends React.Component {
                 name: 'addCookie'
             }, {
                 gas: 42,
-                name: 'FuncTwo'
+                name: 'stockUp'
             }, {
                 gas: 25,
-                name: 'FuncThree'
+                name: 'bakeCookie'
             },
         ],
         minTime: '',
@@ -210,7 +221,12 @@ class Dashboard extends React.Component {
         minGas: '',
         minGasName: '',
         maxGas: '',
-        maxGasName: ''
+        maxGasName: '',
+        mergedData: [
+            { name: 'addChoice', gas: 4000, ms: 240 },
+            { name: 'stockUp', gas: 3000, ms: 139 },
+            { name: 'bakeCookie', gas: 2000, ms: 980 }
+        ]
     };
 
     componentDidMount() {
@@ -244,11 +260,20 @@ class Dashboard extends React.Component {
                             const { perFunction, perUser } = JSON.parse(userResult)
                             console.dir(JSON.parse(userResult))
                             const res = parseData({ ...parsedData }, perFunction)
-                            // console.log(res)
-                            this.setState({ parsedData: res })
+
+                            // debugger
+                            console.log(res)
+
+                            const _gasPerFunction = Object.keys(res).map(i => { return { gas: res[i].gasSpent, name: i } })
+                            const _timePerFunction = Object.keys(res).map(i => { return { ms: res[i].timeTaken, name: i } })
+                            const _mergedData = Object.keys(res).map(i => { return { name: i, gas: res[i].gasSpent, ms: res[i].timeTaken } })
+
+                            this.setState({ parsedData: res, gasCostData: _gasPerFunction, timeTakenData: _timePerFunction, mergedData: _mergedData })
                             const errorRate = getErrorRate(localStorage.getItem('numUsers'), 3, res)
                             // console.log({ errorRate })
                             this.setState({ failRate: errorRate })
+
+
                             const _timeStat = getTransactionStat(res, 'timeTaken')
                             const _gasStat = getTransactionStat(res, 'gasSpent')
 
@@ -311,7 +336,7 @@ class Dashboard extends React.Component {
                                         variant="title"
                                         color="inherit"
                                         noWrap
-                                        className={classes.title}>Fastest Function</Typography>
+                                        className={classes.title}>Fastest Function (ms)</Typography>
                                     <Typography
                                         component="h1"
                                         variant="title"
@@ -333,7 +358,7 @@ class Dashboard extends React.Component {
                                         variant="title"
                                         color="inherit"
                                         noWrap
-                                        className={classes.title}>Slowest Function</Typography>
+                                        className={classes.title}>Slowest Function (ms)</Typography>
                                     <Typography
                                         component="h1"
                                         variant="title"
@@ -355,7 +380,7 @@ class Dashboard extends React.Component {
                                         variant="title"
                                         color="inherit"
                                         noWrap
-                                        className={classes.title}>Most Expensive Function</Typography>
+                                        className={classes.title}>Most Expensive Function (Gas)</Typography>
                                     <Typography
                                         component="h1"
                                         variant="title"
@@ -377,7 +402,7 @@ class Dashboard extends React.Component {
                                         variant="title"
                                         color="inherit"
                                         noWrap
-                                        className={classes.title}>Cheapest Function</Typography>
+                                        className={classes.title}>Cheapest Function (Gas)</Typography>
                                     <Typography
                                         component="h1"
                                         variant="title"
@@ -411,7 +436,7 @@ class Dashboard extends React.Component {
                                         color="inherit"
                                         noWrap
                                         className={classes.title}>Time vs. Contract Functions</Typography>
-                                    <TimeTakenChart data={this.state.gasCostData} />
+                                    <TimeTakenChart data={this.state.timeTakenData} />
                                 </Paper>
                             </Grid>
                             <Grid item xs={4}>
@@ -432,8 +457,10 @@ class Dashboard extends React.Component {
                                         variant="title"
                                         color="inherit"
                                         noWrap
-                                        className={classes.title}>Gas vs Time</Typography>
-                                    <SimpleLineChart data={this.state.timeTakenData} dataKey="ms" />
+                                        className={classes.title}>Benchmark Score</Typography>
+                                    {/* <SimpleLineChart data={this.state.mergedData} dataKey="ms" isMulti />
+                                 */}
+                                    <RadialChart />
                                 </Paper>
                             </Grid>
                             <Grid item xs={4}>
