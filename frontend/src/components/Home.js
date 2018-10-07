@@ -41,6 +41,11 @@ const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
+    width: 200,
+  },
+  bigTextField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
     width: 400,
   },
   button: {
@@ -139,7 +144,7 @@ class Home extends Component {
           multiline
           rows="10"
           value={this.state.sol}
-          className={classes.textField}
+          className={classes.bigTextField}
           onChange={this.handleChange('sol')}
           margin="normal"
         />
