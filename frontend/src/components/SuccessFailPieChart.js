@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Card from '@material-ui/core/Card'
-import {PieChart, Pie, Legend, Tooltip, ResponsiveContainer} from 'recharts';
-
+import {PieChart, Pie, Legend, Tooltip} from 'recharts';
+import ResponsiveContainer from 'recharts/lib/component/ResponsiveContainer';
 class SuccessFailPieChart extends React.Component {
     state = {
         data: [
@@ -17,7 +17,8 @@ class SuccessFailPieChart extends React.Component {
     render() {
         const {value} = this.state;
         return (
-                <PieChart width={800} height={400}>
+            <ResponsiveContainer width={600} height={400}>
+                <PieChart>
                     <Pie
                         data={this.state.data}
                         cx={500}
@@ -28,6 +29,7 @@ class SuccessFailPieChart extends React.Component {
                         label/>
                     <Tooltip/>
                 </PieChart>
+                </ResponsiveContainer>
         );
     }
 }

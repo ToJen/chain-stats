@@ -11,7 +11,7 @@ import Legend from 'recharts/lib/component/Legend';
 class SimpleLineChart extends React.Component {
     render() {
         return (
-        <ResponsiveContainer > 
+        <ResponsiveContainer width='100%' aspect={4.0/3.0}> 
         <LineChart data={this.props.data}>
             <XAxis/>
             <YAxis/>

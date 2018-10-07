@@ -23,6 +23,7 @@ import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import { Subscription } from 'react-apollo'
 import { gql } from 'apollo-boost'
+import withRoot from '../withRoot'
 
 const drawerWidth = 240
 
@@ -35,7 +36,8 @@ const USER_RESULTS_SUBSCRIPTION = gql`
 
 const styles = theme => ({
     root: {
-        display: 'flex'
+        display: 'flex',
+        flexGrow: 1,
     },
     toolbar: {
         paddingRight: 24, // keep right padding when drawer closed
@@ -48,6 +50,7 @@ const styles = theme => ({
         ...theme.mixins.toolbar
     },
     appBar: {
+        color: theme.palette.text.primary,
         zIndex: theme.zIndex.drawer + 1,
         transition: theme
             .transitions
@@ -120,7 +123,12 @@ const styles = theme => ({
     },
     tableContainer: {
         height: 320
-    }
+    },
+    paper: {
+        padding: theme.spacing.unit * 2,
+        textAlign: 'center',
+        color: theme.palette.text.primary,
+      },
 })
 
 class Dashboard extends React.Component {
@@ -172,7 +180,6 @@ class Dashboard extends React.Component {
 
         return (
             <React.Fragment>
-                <CssBaseline />
                 <div className={classes.root}>
                     <Subscription
                         subscription={USER_RESULTS_SUBSCRIPTION}
@@ -199,7 +206,7 @@ class Dashboard extends React.Component {
                             })
                         }}
                     />
-                    <AppBar position="absolute" className={classNames(classes.appBar)}>
+                    <AppBar position="absolute" color="primary">
                         <Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
                             <IconButton
                                 color="inherit"
@@ -227,14 +234,14 @@ class Dashboard extends React.Component {
                     <main className={classes.content}>
                         <div className={classes.appBarSpacer} />
                         <Grid container spacing={24}>
-                            <Grid item md>
-                                <SimpleLineChart data={this.state.timeTakenData} />
+                            <Grid item xs={4}>
+                                <SimpleLineChart data={this.state.timeTakenData} className={classes.paper}/>
                             </Grid>
-                            <Grid item md>
-                                <SuccessFailPieChart failRate={this.state.failRate} />
+                            <Grid item xs={4}>
+                                <SuccessFailPieChart failRate={this.state.failRate} className={classes.paper}/>
                             </Grid>
-                            <Grid item md>
-                                <TimeTakenChart data={this.state.timeTakenData} />
+                            <Grid item xs={4}>
+                                <TimeTakenChart data={this.state.timeTakenData} className={classes.paper}/>
                             </Grid>
                         </Grid>
 
@@ -261,4 +268,4 @@ Dashboard.propTypes = {
     classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(Dashboard)
+export default withRoot(withStyles(styles)(Dashboard))
