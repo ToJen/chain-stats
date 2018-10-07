@@ -300,7 +300,7 @@ class Home extends Component {
       <div className={classes.root}>
         <AppBar position="static" color="primary">
           <Toolbar color="inherit">
-            <img src={require('./chainstats.png')} width="70px" />
+            <img src={require('./chainstats.png')} alt="logo" width="70px" />
           </Toolbar>
         </AppBar>
         <Stepper activeStep={activeStep}>

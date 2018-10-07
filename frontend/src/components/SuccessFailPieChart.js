@@ -1,6 +1,5 @@
-import React, { Component } from 'react'
-import Card from '@material-ui/core/Card'
-import { PieChart, Pie, Legend, Tooltip, Sector, Cell } from 'recharts'
+import React from 'react'
+import { PieChart, Pie, Legend, Tooltip, Cell } from 'recharts'
 import ResponsiveContainer from 'recharts/lib/component/ResponsiveContainer'
 
 const COLORS = ['#C453AD', '#8ea4af']
