@@ -24,14 +24,11 @@ import Grid from '@material-ui/core/Grid'
 import { Subscription } from 'react-apollo'
 import { gql } from 'apollo-boost'
 import withRoot from '../withRoot'
-<<<<<<< HEAD
 import QuantFeedBack from './QuantFeedback'
 import QuantFeedback from './QuantFeedback';
-=======
 
 import { parseData, getErrorRate } from '../utils'
 
->>>>>>> ca56cc1fa0c8c1dcf4cdf81778c6d2f55038bca6
 const drawerWidth = 240
 
 const USER_RESULTS_SUBSCRIPTION = gql`
@@ -132,10 +129,11 @@ const styles = theme => ({
     },
     paper: {
         backgroundColor: '#27293B',
-        padding: theme.spacing.unit * 2,
+        padding: '30px',
         textAlign: 'center',
         color: theme.palette.text.primary,
-        height: '400px'
+        height: '400px',
+        
     }
 })
 
