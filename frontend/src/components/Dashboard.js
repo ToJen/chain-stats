@@ -86,6 +86,16 @@ const styles = theme => ({
     title: {
         flexGrow: 1
     },
+    number: {
+        flexGrow: 1,
+        fontSize: '50px',
+        margin: '10px',
+    },
+    subTitle: {
+        flexGrow: 1,
+        fontSize: '20px',
+        margin: '10px',
+    },
     drawerPaper: {
         position: 'relative',
         whiteSpace: 'nowrap',
@@ -133,6 +143,14 @@ const styles = theme => ({
         textAlign: 'center',
         color: theme.palette.text.primary,
         height: '400px',
+        
+    },
+    halfPaper: {
+        backgroundColor: '#27293B',
+        padding: '30px',
+        textAlign: 'center',
+        color: theme.palette.text.primary,
+        height: '200px',
         
     }
 })
@@ -270,6 +288,94 @@ class Dashboard extends React.Component {
                     <main className={classes.content}>
                         <div className={classes.appBarSpacer} />
                         <Grid container spacing={24}>
+                            <Grid item xs={3}>
+                                <Paper className={classes.halfPaper}>
+                                    <Typography
+                                        component="h1"
+                                        variant="title"
+                                        color="inherit"
+                                        noWrap
+                                        className={classes.title}>Fastest Transaction</Typography>
+                                        <Typography
+                                        component="h1"
+                                        variant="title"
+                                        color="inherit"
+                                        noWrap
+                                        className={classes.number}>15</Typography>
+                                        <Typography
+                                        component="h1"
+                                        variant="title"
+                                        color="inherit"
+                                        noWrap
+                                        className={classes.subTitle}>main()</Typography>
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Paper className={classes.halfPaper}>
+                                    <Typography
+                                        component="h1"
+                                        variant="title"
+                                        color="inherit"
+                                        noWrap
+                                        className={classes.title}>Slowest Transaction</Typography>
+                                        <Typography
+                                        component="h1"
+                                        variant="title"
+                                        color="inherit"
+                                        noWrap
+                                        className={classes.number}>15</Typography>
+                                        <Typography
+                                        component="h1"
+                                        variant="title"
+                                        color="inherit"
+                                        noWrap
+                                        className={classes.subTitle}>main()</Typography>
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Paper className={classes.halfPaper}>
+                                    <Typography
+                                        component="h1"
+                                        variant="title"
+                                        color="inherit"
+                                        noWrap
+                                        className={classes.title}>Optimal Gas Amount</Typography>
+                                        <Typography
+                                        component="h1"
+                                        variant="title"
+                                        color="inherit"
+                                        noWrap
+                                        className={classes.number}>15</Typography>
+                                        <Typography
+                                        component="h1"
+                                        variant="title"
+                                        color="inherit"
+                                        noWrap
+                                        className={classes.subTitle}>main()</Typography>
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Paper className={classes.halfPaper}>
+                                    <Typography
+                                        component="h1"
+                                        variant="title"
+                                        color="inherit"
+                                        noWrap
+                                        className={classes.title}>Predicted Transaction Time</Typography>
+                                        <Typography
+                                        component="h1"
+                                        variant="title"
+                                        color="inherit"
+                                        noWrap
+                                        className={classes.number}>15</Typography>
+                                        <Typography
+                                        component="h1"
+                                        variant="title"
+                                        color="inherit"
+                                        noWrap
+                                        className={classes.subTitle}>main()</Typography>
+                                </Paper>
+                            </Grid>
                             <Grid item xs={6}>
                                 <Paper className={classes.paper}>
                                     <Typography
@@ -292,7 +398,7 @@ class Dashboard extends React.Component {
                                     <TimeTakenChart data={this.state.timeTakenData} />
                                 </Paper>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={4}>
                                 <Paper className={classes.paper}>
                                     <Typography
                                         component="h1"
@@ -308,7 +414,7 @@ class Dashboard extends React.Component {
                                     <SimpleLineChart data={this.state.timeTakenData} />
                                 </Paper>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={4}>
                                 <Paper className={classes.paper}>
                                 <Typography
                                     component="h1"
