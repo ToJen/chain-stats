@@ -22,8 +22,9 @@ import { Subscription } from 'react-apollo'
 import { gql } from 'apollo-boost'
 import withRoot from '../withRoot'
 import QuantFeedback from './QuantFeedback'
-
+import Roboto from "@material-ui/core/"
 import { parseData, getErrorRate, getTransactionStat } from '../utils'
+import "./main.css";
 
 const drawerWidth = 240
 
@@ -33,10 +34,12 @@ const USER_RESULTS_SUBSCRIPTION = gql`
   }
 `
 
+
+
 const styles = theme => ({
     root: {
         display: 'flex',
-        flexGrow: 1
+        flexGrow: 1,
     },
     toolbar: {
         paddingRight: 24, // keep right padding when drawer closed
@@ -140,7 +143,6 @@ const styles = theme => ({
         textAlign: 'center',
         color: theme.palette.text.primary,
         height: '400px',
-
     },
     halfPaper: {
         backgroundColor: '#27293B',

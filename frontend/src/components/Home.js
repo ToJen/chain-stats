@@ -59,13 +59,13 @@ const styles = theme => ({
     width: 200,
   },
   bigTextField: {
-    marginTop: '250px',
+    marginTop: '150px',
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     width: 400,
   },
   button: {
-    marginRight: theme.spacing.unit,
+    margin: theme.spacing.unit,
   },
   // instructions: {
   //   marginTop: theme.spacing.unit,
