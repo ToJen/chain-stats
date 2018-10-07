@@ -13,8 +13,8 @@ class SimpleLineChart extends React.Component {
     return (
       <ResponsiveContainer width="100%">
         <LineChart data={this.props.data}>
-          {this.props.isMulti ? <YAxis /> : <YAxis />}
-          <XAxis dataKey="name" />
+          {this.props.isMulti ? <YAxis stroke="white" /> : <YAxis stroke="white" />}
+          <XAxis dataKey="name" stroke="white" />
           <CartesianGrid vertical={false} strokeDasharray="3 3" />
           <Tooltip />
           <Legend />

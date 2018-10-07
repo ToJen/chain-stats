@@ -26,8 +26,8 @@ class TimeTakenChart extends React.Component {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
+          <XAxis dataKey="name" stroke="white" />
+          <YAxis stroke="white" />
           <Tooltip />
           <Legend />
           <Bar dataKey="ms" fill="#C453AD" />
