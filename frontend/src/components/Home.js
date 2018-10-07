@@ -22,7 +22,7 @@ import { gql } from 'apollo-boost'
 import { Mutation } from 'react-apollo'
 import QuantFeedback from './QuantFeedback'
 import QuantForm from './QuantForm'
-import Lint from './Lint'
+// import Lint from './Lint'
 
 const RUN_TEST = gql`
   mutation Go(
@@ -196,8 +196,8 @@ class Home extends Component {
               onChange={this.handleChange('sol')}
               margin="normal"
             />
-            <br /><br />
-            <Lint contract={this.state.sol} />
+            {/* <br /><br />
+            <Lint contract={this.state.sol} /> */}
           </div>
         )
       case 1:

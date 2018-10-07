@@ -489,7 +489,7 @@ class Dashboard extends React.Component {
                                         variant="title"
                                         color="inherit"
                                         noWrap
-                                        className={classes.title}>Benchmark Score</Typography>
+                                        className={classes.title}>Security Benchmark Score</Typography>
                                     {/* <SimpleLineChart data={this.state.mergedData} dataKey="ms" isMulti />
                                  */}
                                     <RadialChart />
