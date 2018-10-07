@@ -6,6 +6,10 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import { withStyles } from '@material-ui/core/styles'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Checkbox from '@material-ui/core/Checkbox'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
 // import FileDropper from './FileDropper'
 // import AddressInput from './AddressInput'
 // import AddressArea from './AddresArea'
@@ -29,7 +33,7 @@ const styles = theme => ({
     textAlign: 'center',
     width: '100vw',
     height: '100vh',
-    paddingTop: theme.spacing.unit * 20,
+    //paddingTop: theme.spacing.unit * 20,
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -196,6 +200,17 @@ class Home extends Component {
             }}
             margin="normal"
           />
+          <FormControlLabel
+                    control={
+                    <Checkbox
+                    checked={this.state.ifQuant}
+                    onChange={this.handleChange('ifQuant')}
+                    value="ifQuant"
+                    margin="normal"
+                    />
+                    }
+                    label="Test with Quantstamp"
+            />
         </div>
       default:
         return 'Whooops mate!'
@@ -213,15 +228,13 @@ class Home extends Component {
 
     return (
       <div className={classes.root}>
-
-        {/* <Typography variant="display1" gutterBottom>
-          <font color="White">Chain</font>
-          Stats
-        </Typography>
-        <Typography variant="subheading" gutterBottom>
-          dApp Analytics Tool
-        </Typography> */}
-
+      <AppBar position="static" color="primary">
+        <Toolbar color="inherit">
+          <Typography variant="title" color="inherit">
+            <b>Chain</b>Stats
+          </Typography>
+        </Toolbar>
+      </AppBar>
         <Stepper activeStep={activeStep}>
           {steps.map((label, index) => {
             const props = {}

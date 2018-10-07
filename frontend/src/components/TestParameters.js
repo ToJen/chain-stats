@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
-
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Checkbox from '@material-ui/core/Checkbox'
 const styles = theme => ({
     container: {
         display: 'flex',
@@ -22,6 +23,7 @@ class TestParameters extends React.Component {
         age: '',
         multiline: 'Controlled',
         currency: 'EUR',
+        ifQuant: false,
     };
 
     handleChange = name => event => {
@@ -59,6 +61,17 @@ class TestParameters extends React.Component {
                     }}
                     margin="normal"
                 />
+                <FormControlLabel
+                    control={
+                    <Checkbox
+                    checked={this.state.ifQuant}
+                    onChange={this.handleChange('ifQuant')}
+                    value="ifQuant"
+                    margin="normal"
+                />
+          }
+          label="Secondary"
+        />
             </form>
         )
     }
