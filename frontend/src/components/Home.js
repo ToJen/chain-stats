@@ -22,6 +22,7 @@ import { gql } from 'apollo-boost'
 import { Mutation } from 'react-apollo'
 import QuantFeedback from './QuantFeedback'
 import QuantForm from './QuantForm'
+import Lint from './Lint'
 
 const RUN_TEST = gql`
   mutation Go(
@@ -80,7 +81,25 @@ class Home extends Component {
     activeStep: 0,
     skipped: new Set(),
     sol:
-      'pragma solidity ^0.4.24;contract Bakery { address public  baker; address[] public cookies; event Baked(address _theNewCookie); constructor() public { baker = msg.sender; } function addCookie(address newCookie) public { cookies.push(newCookie); emit Baked(newCookie);   } }',
+      ` pragma solidity ^0.4.24;
+        
+        contract Bakery { 
+
+          address public baker;
+          address[] public cookies; 
+
+          event Baked(address _theNewCookie); 
+          
+          constructor() public { 
+            baker = msg.sender; 
+          }
+
+          function addCookie(address newCookie) public { 
+            cookies.push(newCookie); 
+            emit Baked(newCookie);   
+          } 
+
+        }`,
     nodeAddress: 'http://127.0.0.1:8545',
     contractName: 'Bakery',
     contractAddress: '',
@@ -167,17 +186,18 @@ class Home extends Component {
       case 0:
         return (
           <div>
-
             <TextField
               id="standard-multiline-static"
               label="Contract Source Code"
               multiline
-              rows="10"
+              rows="20"
               value={this.state.sol}
               className={classes.bigTextField}
               onChange={this.handleChange('sol')}
               margin="normal"
             />
+            <br /><br />
+            <Lint contract={this.state.sol} />
           </div>
         )
       case 1:
