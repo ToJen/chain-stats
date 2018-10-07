@@ -7,11 +7,9 @@ import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import { withStyles } from '@material-ui/core/styles'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import FormGroup from '@material-ui/core/FormGroup'
 import Checkbox from '@material-ui/core/Checkbox'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
-import FileDropper from './FileDropper'
 // import AddressInput from './AddressInput'
 // import AddressArea from './AddresArea'
 // import NodeDetails from './NodeDetails'
@@ -20,7 +18,6 @@ import FileDropper from './FileDropper'
 import withRoot from '../withRoot'
 import { gql } from 'apollo-boost'
 import { Mutation } from 'react-apollo'
-import QuantFeedback from './QuantFeedback'
 import QuantForm from './QuantForm'
 // import Lint from './Lint'
 
@@ -80,24 +77,23 @@ class Home extends Component {
   state = {
     activeStep: 0,
     skipped: new Set(),
-    sol:
-      ` pragma solidity ^0.4.24;
-        
-        contract Bakery { 
+    sol: ` pragma solidity ^0.4.24;
+
+        contract Bakery {
 
           address public baker;
-          address[] public cookies; 
+          address[] public cookies;
 
-          event Baked(address _theNewCookie); 
-          
-          constructor() public { 
-            baker = msg.sender; 
+          event Baked(address _theNewCookie);
+
+          constructor() public {
+            baker = msg.sender;
           }
 
-          function addCookie(address newCookie) public { 
-            cookies.push(newCookie); 
-            emit Baked(newCookie);   
-          } 
+          function addCookie(address newCookie) public {
+            cookies.push(newCookie);
+            emit Baked(newCookie);
+          }
 
         }`,
     nodeAddress: 'http://127.0.0.1:8545',
@@ -106,7 +102,7 @@ class Home extends Component {
     contractAbi: '',
     noOfUsers: '4',
     initialGasCost: 1000000,
-    qspChecked: false
+    qspChecked: false,
   }
 
   isStepOptional = step => {
@@ -157,12 +153,11 @@ class Home extends Component {
   }
 
   handleChange = name => event => {
-    name === 'qspChecked' ?
-      this.setState({ [name]: event.target.checked })
-      :
-      this.setState({
-        [name]: event.target.value,
-      })
+    name === 'qspChecked'
+      ? this.setState({ [name]: event.target.checked })
+      : this.setState({
+          [name]: event.target.value,
+        })
   }
 
   updateSOL(event) {
@@ -273,7 +268,8 @@ class Home extends Component {
               }}
               margin="normal"
             />
-            <FormControlLabel className={classes.textField}
+            <FormControlLabel
+              className={classes.textField}
               control={
                 <Checkbox
                   checked={this.state.qspChecked}
@@ -332,81 +328,81 @@ class Home extends Component {
               Reset
             </Button>
           ) : (
+            <div>
+              {/* <Typography className={classes.instructions}> */}
+              {this.getStepContent(activeStep, classes)}
+              {/* </Typography> */}
               <div>
-                {/* <Typography className={classes.instructions}> */}
-                {this.getStepContent(activeStep, classes)}
-                {/* </Typography> */}
-                <div>
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={this.handleBack}
-                    className={classes.button}
-                  >
-                    Back
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={this.handleBack}
+                  className={classes.button}
+                >
+                  Back
                 </Button>
 
-                  {this.isStepOptional(activeStep) && (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={this.handleSkip}
-                      className={classes.button}
-                    >
-                      Skip
+                {this.isStepOptional(activeStep) && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={this.handleSkip}
+                    className={classes.button}
+                  >
+                    Skip
                   </Button>
-                  )}
+                )}
 
-                  {activeStep === steps.length - 1 ? (
-                    <Mutation mutation={RUN_TEST}>
-                      {(go, { error }) => {
-                        if (error) {
-                          alert(error)
-                        }
+                {activeStep === steps.length - 1 ? (
+                  <Mutation mutation={RUN_TEST}>
+                    {(go, { error }) => {
+                      if (error) {
+                        alert(error)
+                      }
 
-                        return (
-                          <Button
-                            className={classes.button}
-                            variant="raised"
-                            color="secondary"
-                            onClick={async () => {
-                              console.log(this.state)
-                              go({
-                                variables: {
-                                  sol: this.state.sol,
-                                  nodeAddress: this.state.nodeAddress,
-                                  noOfUsers: this.state.noOfUsers,
-                                  initialGasCost: this.state.initialGasCost,
-                                  contractAddress: this.state.contractAddress,
-                                  abi: this.state.contractAbi,
-                                  contractName: this.state.contractName,
-                                },
-                              })
-                              // console.log(this.state.noOfUsers)
-                              localStorage.setItem(
-                                'numUsers',
-                                this.state.noOfUsers,
-                              )
-                              history.push('/results')
-                            }}
-                          >
-                            Go!
+                      return (
+                        <Button
+                          className={classes.button}
+                          variant="raised"
+                          color="secondary"
+                          onClick={async () => {
+                            console.log(this.state)
+                            go({
+                              variables: {
+                                sol: this.state.sol,
+                                nodeAddress: this.state.nodeAddress,
+                                noOfUsers: this.state.noOfUsers,
+                                initialGasCost: this.state.initialGasCost,
+                                contractAddress: this.state.contractAddress,
+                                abi: this.state.contractAbi,
+                                contractName: this.state.contractName,
+                              },
+                            })
+                            // console.log(this.state.noOfUsers)
+                            localStorage.setItem(
+                              'numUsers',
+                              this.state.noOfUsers,
+                            )
+                            history.push('/results')
+                          }}
+                        >
+                          Go!
                         </Button>
-                        )
-                      }}
-                    </Mutation>
-                  ) : (
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={this.handleNext}
-                        className={classes.button}
-                      >
-                        Next
+                      )
+                    }}
+                  </Mutation>
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={this.handleNext}
+                    className={classes.button}
+                  >
+                    Next
                   </Button>
-                    )}
-                </div>
+                )}
               </div>
-            )}
+            </div>
+          )}
         </div>
       </div>
     )
