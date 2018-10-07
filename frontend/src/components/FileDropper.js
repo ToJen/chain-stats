@@ -12,7 +12,7 @@ const FileDropperStyle = {
 class FileDropper extends Component {
   constructor() {
     super()
-    this.state = { files: [] }
+    this.state = { files: [], sol: "" }
   }
 
   onDrop(files) {
@@ -20,6 +20,14 @@ class FileDropper extends Component {
       files
     })
   }
+
+  onUpdate(event) {
+    this.setState({
+      sol: event
+    })
+    this.props.onUpdate(event);
+  }
+
 
   render() {
     return (
@@ -35,7 +43,7 @@ class FileDropper extends Component {
               const reader = new FileReader()
               reader.onload = () => {
                 const fileAsBinaryString = reader.result
-                console.log(fileAsBinaryString)
+                this.onUpdate(fileAsBinaryString);
                 // do whatever you want with the file content
                 /*
                 const req = request.post('/upload');

@@ -7,10 +7,11 @@ import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import { withStyles } from '@material-ui/core/styles'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
+import FormGroup from '@material-ui/core/FormGroup'
 import Checkbox from '@material-ui/core/Checkbox'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
-// import FileDropper from './FileDropper'
+import FileDropper from './FileDropper'
 // import AddressInput from './AddressInput'
 // import AddressArea from './AddresArea'
 // import NodeDetails from './NodeDetails'
@@ -19,6 +20,8 @@ import Toolbar from '@material-ui/core/Toolbar'
 import withRoot from '../withRoot'
 import { gql } from 'apollo-boost'
 import { Mutation } from 'react-apollo'
+import QuantFeedback from './QuantFeedback';
+import QuantForm from './QuantForm';
 
 
 const RUN_TEST = gql`
@@ -38,7 +41,7 @@ const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: 200,
+    width: 400,
   },
   button: {
     marginRight: theme.spacing.unit,
@@ -115,6 +118,13 @@ class Home extends Component {
     })
   }
 
+  updateSOL(event){
+    console.log(event);
+    //this.setState({
+    //  sol: event
+    //})
+  }
+
   getSteps = () => {
     return ['Paste contract source code', 'Enter node details', 'Deployed details', 'Specify test parameters']
   }
@@ -122,7 +132,8 @@ class Home extends Component {
   getStepContent = (step, classes) => {
     switch (step) {
       case 0:
-        return <TextField
+        return <div>
+        <TextField
           id="standard-multiline-static"
           label="Contract Source Code"
           multiline
@@ -132,6 +143,7 @@ class Home extends Component {
           onChange={this.handleChange('sol')}
           margin="normal"
         />
+        </div>
       case 1:
         return <div>
           <TextField
@@ -211,6 +223,7 @@ class Home extends Component {
             }
             label="Test with Quantstamp"
           />
+          <QuantForm />
         </div>
       default:
         return 'Whooops mate!'
